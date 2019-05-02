@@ -14,7 +14,6 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import dan200.computercraft.api.permissions.ITurtlePermissionProvider;
 import dan200.computercraft.api.redstone.IBundledRedstoneProvider;
-import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.core.filesystem.ComboMount;
 import dan200.computercraft.core.filesystem.FileMount;
 import dan200.computercraft.core.filesystem.JarMount;
@@ -37,14 +36,12 @@ import dan200.computercraft.shared.peripheral.modem.BlockAdvancedModem;
 import dan200.computercraft.shared.peripheral.modem.WirelessNetwork;
 import dan200.computercraft.shared.peripheral.printer.TilePrinter;
 import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
-import dan200.computercraft.shared.proxy.ICCTurtleProxy;
 import dan200.computercraft.shared.proxy.IComputerCraftProxy;
 import dan200.computercraft.shared.util.CreativeTabMain;
 import dan200.computercraft.shared.util.IDAssigner;
-import dan200.computercraft.shared.util.IEntityDropConsumer;
+import dan200.computercraft.shared.util.Reference;
 import dan200.computercraft.shared.util.WorldUtil;
 import io.netty.buffer.Unpooled;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -78,7 +75,7 @@ import java.util.List;
 // UNIVERSAL //
 ///////////////
 
-@Mod( modid = "ComputerCraft", name = "ComputerCraft", version = "${version}" )
+@Mod( modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION )
 public class ComputerCraft
 {
 	// GUI IDs
@@ -162,11 +159,9 @@ public class ComputerCraft
 	@Mod.Instance( value = "ComputerCraft" )
 	public static ComputerCraft instance;
 
-	@SidedProxy( clientSide = "dan200.computercraft.client.proxy.ComputerCraftProxyClient", serverSide = "dan200.computercraft.server.proxy.ComputerCraftProxyServer" )
+	@SidedProxy( clientSide = Reference.CLIENTPROXY, serverSide = Reference.COMMONPROXY )
 	public static IComputerCraftProxy proxy;
 
-    @SidedProxy( clientSide = "dan200.computercraft.client.proxy.CCTurtleProxyClient", serverSide = "dan200.computercraft.server.proxy.CCTurtleProxyServer" )
-    public static ICCTurtleProxy turtleProxy;
 
 	public ComputerCraft()
 	{
@@ -236,20 +231,18 @@ public class ComputerCraft
         networkEventChannel.register( new PacketHandler() );
 
 		proxy.preInit();
-        turtleProxy.preInit();
 	}
 
 	@Mod.EventHandler
 	public void init( FMLInitializationEvent event )
 	{
 		proxy.init();
-        turtleProxy.init();
 	}
 
     @Mod.EventHandler
     public void onServerStarting( FMLServerStartingEvent event )
     {
-        ItemTreasureDisk.registerDungeonLoot();
+//        ItemTreasureDisk.registerDungeonLoot();
     }
 
     @Mod.EventHandler
@@ -710,40 +703,5 @@ public class ComputerCraft
             return null;
         }
         return new File( new File( path ).getParentFile(), "../.." );
-    }
-
-    public static void registerTurtleUpgrade( ITurtleUpgrade upgrade )
-    {
-        turtleProxy.registerTurtleUpgrade( upgrade );
-    }
-
-    public static ITurtleUpgrade getTurtleUpgrade( String id )
-    {
-        return turtleProxy.getTurtleUpgrade( id );
-    }
-
-    public static ITurtleUpgrade getTurtleUpgrade( int legacyID )
-    {
-        return turtleProxy.getTurtleUpgrade( legacyID );
-    }
-
-    public static ITurtleUpgrade getTurtleUpgrade( ItemStack item )
-    {
-        return turtleProxy.getTurtleUpgrade( item );
-    }
-
-    public static void addAllUpgradedTurtles( List<ItemStack> list )
-    {
-        turtleProxy.addAllUpgradedTurtles( list );
-    }
-
-    public static void setEntityDropConsumer( Entity entity, IEntityDropConsumer consumer )
-    {
-        turtleProxy.setEntityDropConsumer( entity, consumer );
-    }
-
-    public static void clearEntityDropConsumer( Entity entity )
-    {
-        turtleProxy.clearEntityDropConsumer( entity );
     }
 }

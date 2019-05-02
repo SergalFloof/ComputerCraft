@@ -20,7 +20,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -162,11 +164,31 @@ public class TileCommandComputer extends TileComputer
         computer.addAPI( new CommandAPI( this ) );
         return computer;
     }
+    
+    @Override
+    public boolean isUsable(EntityPlayer player, boolean ignoreRange) {
+    	World world;
+    	MinecraftServer server = world.getMinecraftServer();
+        if( server == null || !server.isCommandBlockEnabled() )
+        {
+            player.sendMessage( new TextComponentTranslation( "advMode.notEnabled" ) );
+            return false;
+        }
+        else if( ComputerCraft.canPlayerUseCommands( player, (WorldServer) world ) && player.capabilities.isCreativeMode )
+        {
+            return super.isUsable( player, ignoreRange );
+        }
+        else
+        {
+            player.addChatMessage( new ChatComponentTranslation( "advMode.notAllowed" ) );
+            return false;
+        }
+    }
 
     @Override
     public boolean isUsable( EntityPlayer player, boolean ignoreRange, WorldServer world )
     {
-        MinecraftServer server = world.getServer();
+        MinecraftServer server = world.getMinecraftServer();
         if( server == null || !server.isCommandBlockEnabled() )
         {
             player.addChatMessage( new ChatComponentTranslation( "advMode.notEnabled" ) );

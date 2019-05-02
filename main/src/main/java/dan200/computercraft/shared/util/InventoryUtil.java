@@ -29,7 +29,7 @@ public class InventoryUtil
     {
         if( areItemsStackable( a, b ) )
         {
-            if( a == null || a.stackSize == b.stackSize )
+            if( a == null || a.getCount() == b.getCount() )
             {
                 return true;
             }
@@ -199,7 +199,7 @@ public class InventoryUtil
     	{
     		return stack;
     	}
-    	if( stack == null || stack.stackSize == 0 )
+    	if( stack == null || stack.getCount() == 0 )
     	{
     		return null;
     	}
@@ -216,7 +216,7 @@ public class InventoryUtil
 				{
 					// Slot is empty
 					int space = inventory.getInventoryStackLimit();
-					if( space >= remainder.stackSize )
+					if( space >= remainder.getCount() )
 					{
                         // Items fit completely in slot
 						inventory.setInventorySlotContents( slot, remainder );
@@ -233,11 +233,11 @@ public class InventoryUtil
 				else if( areItemsStackable( slotContents, remainder ) )
 				{
 					// Slot is occupied, but matching
-					int space = Math.min( slotContents.getMaxStackSize(), inventory.getInventoryStackLimit() ) - slotContents.stackSize;
-					if( space >= remainder.stackSize )
+					int space = Math.min( slotContents.getMaxStackSize(), inventory.getInventoryStackLimit() ) - slotContents.getCount();
+					if( space >= remainder.getCount() )
 					{
                         // Items fit completely in slot
-						slotContents.stackSize += remainder.stackSize;
+						slotContents.stackSize += remainder.getCount();
 						inventory.setInventorySlotContents( slot, slotContents );
 						inventory.markDirty();
 						return null;
@@ -297,19 +297,19 @@ public class InventoryUtil
                     if( partialStack == null || areItemsStackable( stack, partialStack ) )
                     {
                         // Found a matching thing
-                        if( countRemaining >= stack.stackSize )
+                        if( countRemaining >= stack.getCount() )
                         {
                             // Eat the thing whole
                             inventory.setInventorySlotContents( slot, null );
                             if( partialStack == null )
                             {
                                 partialStack = stack;
-                                countRemaining = Math.min( countRemaining, partialStack.getItem().getItemStackLimit( partialStack ) ) - stack.stackSize;
+                                countRemaining = Math.min( countRemaining, partialStack.getItem().getItemStackLimit( partialStack ) ) - stack.getCount();
                             }
                             else
                             {
                                 partialStack.stackSize += stack.stackSize;
-                                countRemaining -= stack.stackSize;
+                                countRemaining -= stack.getCount();
                             }
                         }
                         else
@@ -319,7 +319,7 @@ public class InventoryUtil
                             if( partialStack == null )
                             {
                                 partialStack = splitStack;
-                                countRemaining = Math.min( countRemaining, partialStack.getItem().getItemStackLimit( partialStack ) ) - splitStack.stackSize;
+                                countRemaining = Math.min( countRemaining, partialStack.getItem().getItemStackLimit( partialStack ) ) - splitStack.getCount();
                             }
                             else
                             {

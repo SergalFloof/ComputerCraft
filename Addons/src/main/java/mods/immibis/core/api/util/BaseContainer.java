@@ -51,23 +51,23 @@ public class BaseContainer<InventoryType> extends Container implements ISyncedCo
 	}
 	
 	@Override
-	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
-		if(slotId >= 0 && slotId < inventorySlots.size() &&  inventorySlots.get(slotId) instanceof SlotFake) {
-        	SlotFake fs = (SlotFake)inventorySlots.get(slotId);
+	public ItemStack slotClick(int slot, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+		if(slot >= 0 && slot < inventorySlots.size() &&  inventorySlots.get(slot) instanceof SlotFake) {
+        	SlotFake fs = (SlotFake)inventorySlots.get(slot);
         	ItemStack heldStack = player.inventory.getItemStack();
-        	fs.onClickByItem(heldStack, dragType, false); //maybe??
+        	fs.onClickByItem(heldStack, button, shift == 1);
         	return null;
         }
-		return super.slotClick(slotId, dragType, clickTypeIn, player);
+        return super.slotClick(slot, button, shift, player);
 	}
 	
 	// Returns true if this slot can be taken from when the user double-clicks another slot with a matching item.
 	// In vanilla, this is false for crafting output slots.
 	@Override
-	public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
-		if(slotIn instanceof SlotFake)
+	public boolean canMergeSlot(ItemStack stack, Slot slot) {
+		if(slot instanceof SlotFake)
 			return false;
-		return super.canMergeSlot(stack, slotIn);
+		return super.canMergeSlot(stack, slot);
 	}
 
 	/** Sends the packet to all players listening to this inventory.
@@ -85,9 +85,9 @@ public class BaseContainer<InventoryType> extends Container implements ISyncedCo
 			throw new IllegalStateException("Cannot send update packets from the client");
 
 		//System.out.println("send update packet "+packet);
-//		for(ICrafting ic : (List<ICrafting>)crafters)
-//			if(ic instanceof EntityPlayer)
-//				APILocator.getNetManager().sendToClient(packet, (EntityPlayer)ic);
+		for(ICrafting ic : (List<ICrafting>)crafters)
+			if(ic instanceof EntityPlayer)
+				APILocator.getNetManager().sendToClient(packet, (EntityPlayer)ic);
 	}
 	
 	/** Sends the packet to the server. Throws an exception if run on the server.
@@ -132,10 +132,10 @@ public class BaseContainer<InventoryType> extends Container implements ISyncedCo
 			onUpdatePacket(p);
 	}
 	
-//	public void sendProgressBarUpdate(int index, int value) {
-//		for(Object o : crafters)
-//			((ICrafting)o).sendProgressBarUpdate(this, index, value);
-//	}
+	public void sendProgressBarUpdate(int index, int value) {
+		for(Object o : crafters)
+			((ICrafting)o).sendProgressBarUpdate(this, index, value);
+	}
 	
 	private Map<Short, Short> prevBarValues = new HashMap<Short, Short>();
 	protected void setProgressBar(int _index, int _value) {
@@ -143,7 +143,7 @@ public class BaseContainer<InventoryType> extends Container implements ISyncedCo
 		Short prev = prevBarValues.get(index);
 		if(prev == null || prev != value) {
 			prevBarValues.put(index, value);
-//			sendProgressBarUpdate(index, value);
+			sendProgressBarUpdate(index, value);
 		}
 	}
 }

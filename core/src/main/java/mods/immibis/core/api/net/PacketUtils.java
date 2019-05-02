@@ -41,7 +41,7 @@ public class PacketUtils {
             out.writeShort(-1);
         else {
             out.writeShort(Item.getIdFromItem(is.getItem()));
-            out.writeByte(is.stackSize);
+            out.writeByte(is.getCount());
             out.writeShort(is.getItemDamage());
             if(is.getItem().isDamageable() || is.getItem().getShareTag())
 				writeNBT(is.stackTagCompound, out);
@@ -55,7 +55,7 @@ public class PacketUtils {
             out.writeShort(-1);
         else {
             out.writeShort(Item.getIdFromItem(is.getItem()));
-            out.writeByte(is.stackSize);
+            out.writeByte(is.getCount());
             out.writeShort(is.getItemDamage());
             if(is.getItem().isDamageable() || is.getItem().getShareTag())
 				writeNBT(is.stackTagCompound, out);

@@ -12,6 +12,7 @@ import mods.immibis.core.api.util.Dir;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -217,8 +218,8 @@ public class WorldNetworkData extends WorldSavedData {
 			System.out.println("addNIC: Add NIC "+pos+" to "+cables.get(pos));
 	}
 	
-	public CableNet getNet(int x, int y, int z) {
-		CableNet net = cables.get(new XYZ(x, y, z));
+	public CableNet getNet(BlockPos pos) {
+		CableNet net = cables.get(pos);
 		
 		if(DEBUG) {
 			System.out.println("Nets:");

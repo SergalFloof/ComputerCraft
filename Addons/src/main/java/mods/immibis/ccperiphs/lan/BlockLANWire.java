@@ -54,8 +54,8 @@ public class BlockLANWire extends Block {
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity) {
-		addCollidingBlockToList((IBlockAccess)par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
+	public void addCollisionBoxesToList(IBlockAccess blockAccess, BlockPos pos, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity) {
+		addCollidingBlockToList((IBlockAccess)blockAccess, pos, par5AxisAlignedBB, par6List, par7Entity);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

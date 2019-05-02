@@ -124,7 +124,7 @@ public class TileTapeDrive extends TilePeriphs implements IPeripheral, IInventor
 				
 				world.markTileEntityChunkModified(pos, this);
 			}
-			worldObj.markTileEntityChunkModified(pos, yCoord, zCoord, this);
+			world.markTileEntityChunkModified(pos, yCoord, zCoord, this);
 			return new Object[] {true};
 		case 2: // getCode
 			if(!isTapeInserted() || contents.stackTagCompound == null)
@@ -233,47 +233,83 @@ public class TileTapeDrive extends TilePeriphs implements IPeripheral, IInventor
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int var1) {
-		return null;
-	}
-
-	@Override
 	public synchronized void setInventorySlotContents(int var1, ItemStack var2) {
 		if(var1 == 0)
 			contents = var2;
 	}
 
 	@Override
-	public String getInventoryName() {
-		return "Tape drive";
-	}
-
-	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
-
+	
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return false;
 	}
 
 	@Override
-	public void openInventory() {
+	public void openInventory(EntityPlayer player) {
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(EntityPlayer player) {
 	}
 
-	@Override
-	public boolean hasCustomInventoryName() {
-		return false;
-	}
+//	@Override
+//	public boolean hasCustomInventoryName() {
+//		return false;
+//	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return true;
 	}
+
+@Override
+public String getName() {
+	return "Tape drive";
+}
+
+@Override
+public boolean hasCustomName() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public boolean isEmpty() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public ItemStack removeStackFromSlot(int index) {
+	return null;
+}
+
+@Override
+public int getField(int id) {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+@Override
+public void setField(int id, int value) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public int getFieldCount() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+@Override
+public void clear() {
+	// TODO Auto-generated method stub
+	
+}
 
 }

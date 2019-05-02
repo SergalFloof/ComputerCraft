@@ -8,6 +8,7 @@ import mods.immibis.core.api.multipart.IPartContainer;
 import mods.immibis.core.api.multipart.PartCoordinates;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,8 +17,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ClientProxy {
 	// Returns true if anything was rendered
-	public static boolean renderMultiparts(RenderBlocks render, IBlockAccess world, int x, int y, int z) {
-		TileEntity te = world.getTileEntity(x, y, z);
+	public static boolean renderMultiparts(RenderBlocks render, IBlockAccess world, BlockPos pos) {
+		int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
+		TileEntity te = world.getTileEntity(pos);
 		
 		ICoverSystem ci = te instanceof ICoverableTile ? ((ICoverableTile)te).getCoverSystem() : null;
 		IPartContainer imt = te instanceof IPartContainer ? (IPartContainer)te : null;

@@ -158,7 +158,7 @@ public class NetworkingManager implements INetworkingManager, ChannelInboundHand
 	
 	private void send250(String channel, byte[] data, NetworkManager target, boolean isFromServer) {
 		if(data.length <= MAX_PACKET_SIZE) {
-			target.scheduleOutboundPacket(createCustomPayloadPacket(channel, data, isFromServer));
+			target.sendPacket(createCustomPayloadPacket(channel, data, isFromServer));
 			return;
 		}
 		int seqID = nextFragmentSequenceID.incrementAndGet();

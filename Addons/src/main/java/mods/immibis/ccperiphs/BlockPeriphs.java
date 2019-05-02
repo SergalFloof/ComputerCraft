@@ -17,6 +17,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -60,14 +62,8 @@ public class BlockPeriphs extends BlockCombined {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg) {
-		RenderUtils.registerTextures(reg);
-	}
-	
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess w, int x, int y, int z) {
-		if(w.getBlock(x, y, z) != this) {
+	public void setBlockBoundsBasedOnState(IBlockAccess w, BlockPos pos) {
+		if(w.getBlockState(pos) != this) {
 			setBlockBounds(0, 0, 0, 1, 1, 1);
 			return;
 		}
@@ -127,37 +123,38 @@ public class BlockPeriphs extends BlockCombined {
 	}*/
 	
 	@Override
-	public boolean isOpaqueCube() {
-        return false;
-    }
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
 	
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
 	@Override
-	public boolean isBlockSolid(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
-		return false;
+	public boolean isBlockNormalCube(IBlockState state) {
+		// TODO Auto-generated method stub
+		return super.isBlockNormalCube(state);
 	}
 	
 	@Override
-	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+	public boolean isFullBlock(IBlockState state) {
+		return false;
+	}
+	@Override
+	public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		switch(EnumPeriphs.VALUES[world.getBlockMetadata(x, y, z)])
 		{
 		case COPROC_ADVMAP:
 		case COPROC_CRYPTO:
 			// all sides except front
-			return side.ordinal() != ((TileCoprocBase)world.getTileEntity(x, y, z)).facing;
-		case SPEAKER:
-			// all sides except front
-			return side.ordinal() != ((TileSpeaker)world.getTileEntity(x, y, z)).facing;
+			return side.ordinal() != ((TileCoprocBase)world.getTileEntity(pos)).facing;
 		case MAG_STRIPE:
 		case RFID_READER:
 			return true;
 		case RFID_WRITER:
 			// back only
-			return side.ordinal() == (1 ^ ((TileRFIDWriter)world.getTileEntity(x, y, z)).facing);
+			return side.ordinal() == (1 ^ ((TileRFIDWriter)world.getTileEntity(pos)).facing);
 		case NIC:
 			return false;
 		}
@@ -165,28 +162,29 @@ public class BlockPeriphs extends BlockCombined {
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
-		setBlockBoundsBasedOnState(par1World, par2, par3, par4);
-		return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess world, BlockPos pos) {
+		int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
+		setBlockBoundsBasedOnState(world, x, y, z);
+		return super.getCollisionBoundingBox(blockState, world, pos);
 	}
-	
-	@SuppressWarnings("rawtypes")
 	@Override
-	public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity) {
-		int meta = par1World.getBlockMetadata(par2, par3, par4);
+	public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox,
+			List<AxisAlignedBB> collidingBoxes, Entity entity, boolean isActualState) {
+		int meta = world.getBlockMetadata(par2, par3, par4);
 		if(meta == EnumPeriphs.NIC.ordinal() && ImmibisPeripherals.enableLANRegistration)
-			ImmibisPeripherals.lanWire.addCollidingBlockToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
+			ImmibisPeripherals.lanWire.addCollidingBlockToList(world, pos, entityBox, collidingBoxes, entity);
+		super.addCollisionBoxesToList(world, pos, entityBox, collidingBoxes, entity);
+	}
+	@Override
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World world, BlockPos pos) {
+		setBlockBoundsBasedOnState(world, pos);
+		return super.getSelectedBoundingBoxFromPool(world, par2, par3, par4);
 	}
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
-		setBlockBoundsBasedOnState(par1World, par2, par3, par4);
-		return super.getSelectedBoundingBoxFromPool(par1World, par2, par3, par4);
-	}
-	
-	@Override
-	public int getRenderType() {
+	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return model;
 	}
 
@@ -204,25 +202,29 @@ public class BlockPeriphs extends BlockCombined {
 		}
 	}
 	
-	
-	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block par5, int par6) {
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
 		if(world.getBlockMetadata(x, y, z) == EnumPeriphs.NIC.ordinal()) {
 			WorldNetworkData.getForWorld(world).removeNIC(x, y, z);
 		}
-		
-		super.breakBlock(world, x, y, z, par5, par6);
 	}
-	
+		
+		
 	@Override
-	public void onBlockAdded(World par1World, int par2, int par3, int par4) {
-		int meta = par1World.getBlockMetadata(par2, par3, par4); 
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
+		int meta = world.getBlockMetadata(par2, par3, par4); 
 		
 		if(meta == EnumPeriphs.NIC.ordinal()) {
-			WorldNetworkData.getForWorld(par1World).addNIC(par2, par3, par4, 0);
+			WorldNetworkData.getForWorld(world).addNIC(x, y, z, 0);
 		}
 		
-		super.onBlockAdded(par1World, par2, par3, par4);
+		super.onBlockAdded(world, pos, state);
 	}
+	
 }

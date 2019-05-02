@@ -70,20 +70,20 @@ public class TileMagStripe extends TilePeriphs implements IPeripheral, IIPPeriph
 		
 		if(state != newState) {
 			state = newState;
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			world.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 	
 	@Override
 	public Packet getDescriptionPacket() {
-		return new SPacketUpdateTileEntity(xCoord, yCoord, zCoord, (facing & 7) | (state << 4), null);
+		return new SPacketUpdateTileEntity(pos, (facing & 7) | (state << 4), null);
 	}
 	
 	@Override
 	public void onDataPacket(SPacketUpdateTileEntity p) {
 		facing = (byte)(p.getTileEntityType() & 7);
 		state = (p.getTileEntityType() >> 4) & 15;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		world.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	@Override

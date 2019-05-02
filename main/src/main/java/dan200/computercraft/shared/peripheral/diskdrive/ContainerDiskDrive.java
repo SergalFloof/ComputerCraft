@@ -38,7 +38,7 @@ public class ContainerDiskDrive extends Container
     @Override
     public boolean canInteractWith( EntityPlayer player )
     {
-        return m_diskDrive.isUseableByPlayer( player );
+        return m_diskDrive.isUsableByPlayer(player);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ContainerDiskDrive extends Container
                 return null;
             }
             
-            if(itemstack1.stackSize == 0)
+            if(itemstack1.getCount() == 0)
             {
                 slot.putStack(null);
             }
@@ -71,9 +71,9 @@ public class ContainerDiskDrive extends Container
                 slot.onSlotChanged();
             }
             
-            if(itemstack1.stackSize != itemstack.stackSize)
+            if(itemstack1.getCount() != itemstack.getCount())
             {
-                slot.onPickupFromSlot(player, itemstack1);
+                slot.onTake(player, itemstack1);
             }
             else
             {

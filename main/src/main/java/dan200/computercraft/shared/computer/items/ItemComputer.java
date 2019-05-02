@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -69,12 +70,11 @@ public class ItemComputer extends ItemComputerBase
         }
         return result;
     }
-
-	@Override
-    public void getSubItems( Item itemID, CreativeTabs tabs, List list )
-    {
-	    list.add( ComputerItemFactory.create( -1, null, ComputerFamily.Normal ) );
-        list.add( ComputerItemFactory.create( -1, null, ComputerFamily.Advanced ) );
+    
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+    	items.add( ComputerItemFactory.create( -1, null, ComputerFamily.Normal ) );
+        items.add( ComputerItemFactory.create( -1, null, ComputerFamily.Advanced ) );;
     }
 
     @Override

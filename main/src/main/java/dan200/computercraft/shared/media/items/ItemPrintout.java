@@ -7,6 +7,7 @@
 package dan200.computercraft.shared.media.items;
 
 import dan200.computercraft.ComputerCraft;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -38,19 +40,16 @@ public class ItemPrintout extends Item
 		setUnlocalizedName( "computercraft:page" );
         setCreativeTab( ComputerCraft.mainCreativeTab );
     }
-	
-	@Override
-    public void getSubItems( Item itemID, CreativeTabs tabs, List list )
-    {
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
     	list.add( createSingleFromTitleAndText( null, new String[ LINES_PER_PAGE ], new String[ LINES_PER_PAGE ] ) );
     	list.add( createMultipleFromTitleAndText( null, new String[ 2*LINES_PER_PAGE ], new String[ 2*LINES_PER_PAGE ] ) );
     	list.add( createBookFromTitleAndText( null, new String[ 2*LINES_PER_PAGE ], new String[ 2*LINES_PER_PAGE ] ) );
     }
     
     @Override
-    public void addInformation( ItemStack itemstack, EntityPlayer par2EntityPlayer, List list, boolean flag )
-    {
-		String title = getTitle( itemstack );
+    public void addInformation(ItemStack stack, World worldIn, List<String> list, ITooltipFlag flagIn) {
+    	String title = getTitle( stack );
 		if( title != null && title.length() > 0 )
 		{
 			list.add( title );

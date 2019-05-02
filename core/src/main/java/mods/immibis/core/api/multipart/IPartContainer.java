@@ -66,8 +66,8 @@ public interface IPartContainer {
 	 * @param render The render context.
 	 * @return True if anything was rendered.
 	 */
-	@SideOnly(Side.CLIENT)
-	public boolean renderPartContainer(RenderBlocks render);
+//	@SideOnly(Side.CLIENT)
+//	public boolean renderPartContainer(RenderBlocks render);
 	
 	/**
 	 * Renders one part.
@@ -75,8 +75,8 @@ public interface IPartContainer {
 	 * @param part The part number.
 	 * @return True if anything was rendered.
 	 */
-	@SideOnly(Side.CLIENT)
-	public boolean renderPart(RenderBlocks render, int part);
+//	@SideOnly(Side.CLIENT)
+//	public boolean renderPart(RenderBlocks render, int part);
 	
 	/**
 	 * Creates particles when a part is destroyed.

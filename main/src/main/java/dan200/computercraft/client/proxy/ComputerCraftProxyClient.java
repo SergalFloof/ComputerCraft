@@ -21,6 +21,7 @@ import dan200.computercraft.shared.peripheral.monitor.TileMonitor;
 import dan200.computercraft.shared.peripheral.printer.TilePrinter;
 import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
 import dan200.computercraft.shared.proxy.ComputerCraftProxyCommon;
+import dan200.computercraft.shared.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -32,6 +33,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IThreadListener;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -184,7 +186,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         name = "computercraft:" + name;
         ModelResourceLocation res = new ModelResourceLocation( name, "inventory" );
-        ModelBakery.addVariantName( item, name );
+        ModelBakery.registerItemVariants( item, new ResourceLocation(Reference.MODID) );
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, damage, res );
     }
 
@@ -197,7 +199,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         name = "computercraft:" + name;
         final ModelResourceLocation res = new ModelResourceLocation( name, "inventory" );
-        ModelBakery.addVariantName( item, name );
+        ModelBakery.registerItemVariants( item, new ResourceLocation(Reference.MODID) );
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, new ItemMeshDefinition()
         {
             @Override
@@ -217,7 +219,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         for( int i=0; i<names.length; ++i )
         {
-            ModelBakery.addVariantName( item, "computercraft:" + names[i] );
+            ModelBakery.registerItemVariants( item, new ResourceLocation(Reference.MODID) );
         }
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, definition );
     }

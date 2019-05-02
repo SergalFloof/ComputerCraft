@@ -212,7 +212,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
                 if( tileEntity != null && tileEntity instanceof TileGeneric )
                 {
                     TileGeneric generic = (TileGeneric)tileEntity;
-                    Packet description = generic.getDescriptionPacket();
+                    Packet description = generic.getUpdatePacket();
                     if( description != null )
                     {
                         ((EntityPlayerMP)player).playerNetServerHandler.sendPacket( description );

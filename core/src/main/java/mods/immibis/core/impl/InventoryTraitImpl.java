@@ -62,16 +62,18 @@ public class InventoryTraitImpl implements IInventoryTrait {
 		return is;
 	}
 	@TraitMethod @Override public void setInventorySlotContents(int i, ItemStack itemstack) {inv.contents[i] = itemstack;}
-	@TraitMethod @Override public String getInventoryName() {return invName;}
+	@TraitMethod @Override public String getName() {return invName;}
 	@TraitMethod @Override public int getInventoryStackLimit() {return 64;}
-	@TraitMethod @Override public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+	
+	@TraitMethod @Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		TileEntity te = (TileEntity)tile;
-		return !te.isInvalid() && te.getWorld() == entityplayer.world && entityplayer.getDistanceSq(te.xCoord+0.5, te.yCoord+0.5, te.zCoord+0.5) <= 64;
+		return !te.isInvalid() && te.getWorld() == player.world && player.getDistanceSq(te.getPos().getX()+0.5, te.getPos().getY()+0.5, te.getPos().getZ()+0.5) <= 64;
 	}
-	@TraitMethod @Override public void openInventory() {}
-	@TraitMethod @Override public void closeInventory() {}
-
-	@TraitMethod @Override public boolean hasCustomInventoryName() { return false; }
+		
+	@TraitMethod @Override public void openInventory(EntityPlayer player) {}
+	@TraitMethod @Override public void closeInventory(EntityPlayer player) {}
+	@TraitMethod @Override public boolean hasCustomName() {return false;}
 	@TraitMethod @Override public void markDirty() { }
 	
 	@Override

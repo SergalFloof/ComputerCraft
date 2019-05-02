@@ -234,7 +234,7 @@ public class TileDiskDrive extends TilePeripheralBase
         	return null;
         }
         
-		if (m_diskStack.stackSize <= j)
+		if (m_diskStack.getCount() <= j)
 		{
 			ItemStack disk = m_diskStack;
 			setInventorySlotContents( 0, null );
@@ -242,7 +242,7 @@ public class TileDiskDrive extends TilePeripheralBase
 		}
 		
 		ItemStack part = m_diskStack.splitStack(j);
-		if (m_diskStack.stackSize == 0)
+		if (m_diskStack.getCount() == 0)
 		{
 			setInventorySlotContents( 0, null );
 		}

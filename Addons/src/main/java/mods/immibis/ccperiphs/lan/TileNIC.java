@@ -112,7 +112,7 @@ public class TileNIC extends TilePeriphs implements IPeripheral, IIPPeripheralTi
 	}
 	
 	private CableNet getNet() {
-		return WorldNetworkData.getForWorld(worldObj).getNet(xCoord, yCoord, zCoord);
+		return WorldNetworkData.getForWorld(world).getNet(pos);
 	}
 	
 	private synchronized void sendNow(int channel, int sender, String message) {
@@ -126,8 +126,8 @@ public class TileNIC extends TilePeriphs implements IPeripheral, IIPPeripheralTi
 		Set<WorldNetworkData.XYZ> invalidNICs = null;
 		
 		for(WorldNetworkData.XYZ pos : net.nics) {
-			if(worldObj.blockExists(pos.x, pos.y, pos.z)) {
-				TileEntity te = worldObj.getTileEntity(pos.x, pos.y, pos.z);
+			if(world.blockExists(pos.x, pos.y, pos.z)) {
+				TileEntity te = world.getTileEntity(pos.x, pos.y, pos.z);
 				if(te instanceof TileNIC) {
 					if(te != this)
 						((TileNIC)te).receive(channel, sender, message);
@@ -141,7 +141,7 @@ public class TileNIC extends TilePeriphs implements IPeripheral, IIPPeripheralTi
 		
 		if(invalidNICs != null) for(WorldNetworkData.XYZ pos : invalidNICs) {
 			System.err.println("Immibis's Peripherals: Removing invalid NIC from network at "+pos.x+","+pos.y+","+pos.z);
-			WorldNetworkData.getForWorld(worldObj).removeNIC(pos.x, pos.y, pos.z);
+			WorldNetworkData.getForWorld(world).removeNIC(pos.x, pos.y, pos.z);
 		}
 	}
 	
@@ -162,7 +162,7 @@ public class TileNIC extends TilePeriphs implements IPeripheral, IIPPeripheralTi
 	
 	@Override
 	public void updateEntity() {
-		if(worldObj.isRemote)
+		if(world.isRemote)
 			return;
 		
 		if(ticksUntilNextSend == 0) {
@@ -179,7 +179,7 @@ public class TileNIC extends TilePeriphs implements IPeripheral, IIPPeripheralTi
 			ticksUntilNextSend--;
 		
 		if(resendDescPacket.getAndSet(false))
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			world.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	@Override
@@ -348,14 +348,14 @@ public class TileNIC extends TilePeriphs implements IPeripheral, IIPPeripheralTi
 	
 	@Override
 	public synchronized Packet getDescriptionPacket() {
-		return new SPacketUpdateTileEntity(xCoord, yCoord, zCoord, facing | (computer != null ? 8 : 0), null);
+		return new SPacketUpdateTileEntity(pos, facing | (computer != null ? 8 : 0), null);
 	}
 	
 	@Override
 	public synchronized void onDataPacket(SPacketUpdateTileEntity packet) {
 		facing = (byte)(packet.getTileEntityType() & 7);
 		isConnectedToComputer = (packet.getTileEntityType() & 8) != 0;
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		world.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@Override

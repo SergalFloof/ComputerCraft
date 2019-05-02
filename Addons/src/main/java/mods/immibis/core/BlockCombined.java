@@ -111,7 +111,7 @@ TileCombined te = (TileCombined)world.getTileEntity(pos);
 	}
 	@Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		if(world.isRemote)
+		if(World.isRemote)
 			return;
 		TileCombined te = (TileCombined)world.getTileEntity(pos);
 		if(te != null)

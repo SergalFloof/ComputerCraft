@@ -41,8 +41,9 @@ public class RecordMedia implements IMedia
 	@Override
 	public String getAudioRecordName( ItemStack stack )
 	{
-		ItemRecord itemRecord = (ItemRecord)stack.getItem();
-		return "records." + itemRecord.recordName;
+		return null;
+//		ItemRecord itemRecord = (ItemRecord)stack.getItem();
+//		return "records." + itemRecord.recordName;
 	}
     
 	@Override

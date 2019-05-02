@@ -65,7 +65,7 @@ public abstract class TileGeneric extends TileEntity
 
     public final void updateBlock()
     {
-        world.notifyBlockUpdate( getPos(), oldState, world.getBlockState(getPos()), meta );
+        world.notifyBlockUpdate( getPos(), world.getBlockState(getPos()), world.getBlockState(getPos()), meta );
         world.markChunkDirty( getPos(), this );
     }
 

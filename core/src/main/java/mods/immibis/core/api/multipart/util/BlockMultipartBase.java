@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -37,8 +38,8 @@ public abstract class BlockMultipartBase extends BlockContainer implements IMult
 	
 	@Override public boolean isOpaqueCube(IBlockState state) {return false;}
 
-	@Override public final boolean renderAsNormalBlock() {return false;}
-	@Override public boolean shouldSideBeRendered(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5) {return true;}
+//	@Override public final boolean renderAsNormalBlock() {return false;}
+	@Override public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {return true;}
 	
 	
 	
@@ -50,7 +51,7 @@ public abstract class BlockMultipartBase extends BlockContainer implements IMult
     	int y = pos.getY();
     	int z = pos.getZ();
 
-		ItemStack coverPick = IMultipartSystem.instance.hook_getPickBlock(target, world, x, y, z, player);
+		ItemStack coverPick = IMultipartSystem.instance.hook_getPickBlock(target, world, pos, player);
 		if(coverPick != null)
 			return coverPick;
 		
@@ -82,11 +83,11 @@ public abstract class BlockMultipartBase extends BlockContainer implements IMult
 	@SideOnly(Side.CLIENT)
 	
 	@Override
-	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
-		if(IMultipartSystem.instance.hook_addHitEffects(worldObj, target, manager))
+	public boolean addHitEffects(IBlockState state, World world, RayTraceResult target, ParticleManager manager) {
+		if(IMultipartSystem.instance.hook_addHitEffects(world, target, manager))
 			return true;
 		
-		return super.addHitEffects(state, worldObj, target, manager);
+		return super.addHitEffects(state, world, target, manager);
 	}
 	
 	@Override
@@ -95,7 +96,7 @@ public abstract class BlockMultipartBase extends BlockContainer implements IMult
 		int x = pos.getX();
     	int y = pos.getY();
     	int z = pos.getZ();
-		return IMultipartSystem.instance.hook_collisionRayTrace(super.collisionRayTrace(world, x, y, z, start, end), world, x, y, z, start, end);
+		return IMultipartSystem.instance.hook_collisionRayTrace(super.collisionRayTrace(blockState, world, pos, start, end), world, pos, start, end);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -106,8 +107,9 @@ public abstract class BlockMultipartBase extends BlockContainer implements IMult
 				// return value of hook_addCollisionBlocksToList.
 				// The check is to allow BlockMultipartBase to work with both multipart and normal blocks.
 				if(!IMultipartSystem.instance.hook_addCollisionBoxesToList(world, pos, mask, list, entity))
-					super.addCollisionBoxesToList(world, pos, mask, list, entity);
+					super.addCollisionBoxToList(state, world, pos, mask, list, entity, isActualState);
 	}
+
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		return IMultipartSystem.instance.hook_getDrops(super.getDrops(world, pos, state, fortune), world, pos, state, fortune);

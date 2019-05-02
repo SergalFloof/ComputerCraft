@@ -11,11 +11,14 @@ import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.shared.util.Colour;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -31,15 +34,14 @@ public class ItemDiskLegacy extends Item
         setCreativeTab( ComputerCraft.mainCreativeTab  );
     }
     
-	@Override
-    public void getSubItems( Item itemID, CreativeTabs tabs, List list )
-    {
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
     	for( int colour=0; colour<16; ++colour )
     	{
             ItemStack stack = createFromIDAndColour( -1, null, Colour.values()[ colour ].getHex() );
             if( stack.getItem() == this )
             {
-        		list.add( stack );
+        		items.add( stack );
             }
     	}
     }
@@ -75,11 +77,10 @@ public class ItemDiskLegacy extends Item
 			stack.setItemDamage( 0 );
 		}
 	}
-
-    @Override
-    public void addInformation( ItemStack stack, EntityPlayer player, List list, boolean debug )
-    {
-        if( debug )
+	
+	@Override
+	public void addInformation(ItemStack stack, World worldIn, List<String> list, ITooltipFlag flagIn) {
+		if( debug )
         {
             int id = getDiskID( stack );
             if( id >= 0 )
@@ -87,7 +88,20 @@ public class ItemDiskLegacy extends Item
                 list.add( "(Disk ID: " + id + ")" );
             }
         }
-    }
+	}
+//
+//    @Override
+//    public void addInformation( ItemStack stack, EntityPlayer player, List list, boolean debug )
+//    {
+//        if( debug )
+//        {
+//            int id = getDiskID( stack );
+//            if( id >= 0 )
+//            {
+//                list.add( "(Disk ID: " + id + ")" );
+//            }
+//        }
+//    }
 
     // IMedia implementation
 
@@ -149,10 +163,9 @@ public class ItemDiskLegacy extends Item
 	{
 		return Colour.Blue.getHex();
 	}
-
+	
 	@Override
-    public boolean doesSneakBypassUse( World world, BlockPos pos, EntityPlayer player )
-    {
-        return true;
-    }
+	public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
+		return true;
+	}
 }

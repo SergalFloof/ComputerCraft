@@ -66,7 +66,7 @@ public class Config {
 	{
 		boolean save = !config.hasCategory(category) || config.getCategory(category).get(name) == null;
 		Property prop = config.get(category, name, def);
-		save |= (prop.comment == null && comment != null) || !prop.comment.equals(comment);
+		save |= (prop.getString() == null && comment != null) || !prop.getString().equals(comment);
 		prop.comment = comment;
 		if(save)
 			config.save();

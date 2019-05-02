@@ -1,6 +1,7 @@
 package mods.immibis.ccperiphs.rfid;
 
 import mods.immibis.ccperiphs.RenderUtils;
+import mods.immibis.core.RenderUtilsIC;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
@@ -12,8 +13,8 @@ import org.lwjgl.opengl.GL11;
 public class RenderTileRFIDWriter extends TileEntitySpecialRenderer {
 
 	@Override
-	public void renderTileEntityAt(TileEntity teRaw, double x, double y, double z, float partialTick) {
-		mods.immibis.core.RenderUtilsIC.setBrightness(teRaw.getWorldObj(), teRaw.xCoord, teRaw.yCoord, teRaw.zCoord);
+	public void render(TileEntity teRaw, double x, double y, double z, float partialTicks, int destroyStage, float partialTick) {
+		RenderUtilsIC.setBrightness(teRaw.getWorld(), teRaw.getPos().getX(), teRaw.getPos().getY(), teRaw.getPos().getZ());
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);

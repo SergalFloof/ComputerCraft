@@ -35,7 +35,7 @@ public class TileRFIDReader extends TilePeriphs implements IPeripheral, IIPPerip
 		for(int k = 0; k < size; k++) {
 			ItemStack st = inv.getStackInSlot(k);
 			if(st != null && st.getItem() == ImmibisPeripherals.itemRFID && st.stackTagCompound != null && st.stackTagCompound.hasKey("data")) {
-				double distance = ent.getDistance(xCoord+0.5, yCoord+0.5, zCoord+0.5);
+				double distance = ent.getDistance(ent);
 				
 				String data = "";
 				if(distance <= RADIUS)
@@ -55,7 +55,7 @@ public class TileRFIDReader extends TilePeriphs implements IPeripheral, IIPPerip
 		
 		double scanRadiusSq = scanRadius*scanRadius;
 		for(Entity e : players) {
-			if(e.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) > scanRadiusSq)
+			if(e.getDistanceSq(pos) > scanRadiusSq)
 				continue;
 			
 			if(e instanceof EntityPlayer)

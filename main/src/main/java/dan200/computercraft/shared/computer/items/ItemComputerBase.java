@@ -12,6 +12,7 @@ import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -33,11 +34,10 @@ public abstract class ItemComputerBase extends ItemBlock implements IComputerIte
     {
         return damage;
     }
-
+    
     @Override
-    public void addInformation( ItemStack stack, EntityPlayer player, List list, boolean debug )
-    {
-        if( debug )
+    public void addInformation(ItemStack stack, World worldIn, List<String> list, ITooltipFlag flagIn) {
+    	if( debug )
         {
             int id = getComputerID( stack );
             if( id >= 0 )
@@ -46,6 +46,19 @@ public abstract class ItemComputerBase extends ItemBlock implements IComputerIte
             }
         }
     }
+//
+//    @Override
+//    public void addInformation( ItemStack stack, EntityPlayer player, List list, boolean debug )
+//    {
+//        if( debug )
+//        {
+//            int id = getComputerID( stack );
+//            if( id >= 0 )
+//            {
+//                list.add( "(Computer ID: " + id + ")" );
+//            }
+//        }
+//    }
 
     // IComputerItem implementation
 

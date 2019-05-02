@@ -60,7 +60,7 @@ public abstract class TileCoprocBase extends TilePeriphs implements IPeripheral,
 	
 	@Override
 	public Packet getDescriptionPacket() {
-		return new SPacketUpdateTileEntity(xCoord, yCoord, zCoord, facing | (isConnected ? 8 : 0), null);
+		return new SPacketUpdateTileEntity(pos, facing | (isConnected ? 8 : 0), null);
 	}
 	
 	@Override
@@ -158,16 +158,16 @@ public abstract class TileCoprocBase extends TilePeriphs implements IPeripheral,
 	public void onPlaced(EntityLivingBase player, int _) {
 		Vec3d look = player.getLook(1.0f);
 		
-        double absx = Math.abs(look.xCoord);
-        double absz = Math.abs(look.zCoord);
+        double absx = Math.abs(look.x);
+        double absz = Math.abs(look.z);
         
         if(absx > absz) {
-        	if(look.xCoord < 0)
+        	if(look.x < 0)
         		facing = Dir.PX;
         	else
         		facing = Dir.NX;
         } else {
-        	if(look.zCoord < 0)
+        	if(look.z < 0)
         		facing = Dir.PZ;
         	else
         		facing = Dir.NZ;

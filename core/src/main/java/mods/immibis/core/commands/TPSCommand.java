@@ -130,10 +130,8 @@ public class TPSCommand extends CommandBase {
 	public String getCommandUsage(ICommandSender icommandsender) {
 		return "/"+name;
 	}
-
-    @Override
-	public int compareTo(Object par1Obj)
-    {
-        return ((ICommand)par1Obj).getCommandName().compareTo(this.getCommandName());
-    }
+	@Override
+	public int compareTo(ICommand compair) {
+		return ((ICommand)compair).getName().compareTo(this.getCommandName());
+	}
 }

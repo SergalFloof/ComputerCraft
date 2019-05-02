@@ -43,7 +43,7 @@ public class IMultipartSystem {
 	
 	/** Call this from addHitEffects for cover-supporting blocks. If it returns true, then return true without adding any custom effects. */
 	@SideOnly(Side.CLIENT)
-	public boolean hook_addHitEffects(World world, RayTraceResult trace, BlockPos pos, ParticleManager manager) {return false;}
+	public boolean hook_addHitEffects(World world, RayTraceResult trace, ParticleManager manager) {return false;}
 	
 	/** Call this from addDestroyEffects for cover-supporting blocks. If it returns true, then return true without adding any custom effects. */
 	@SideOnly(Side.CLIENT)
@@ -53,7 +53,7 @@ public class IMultipartSystem {
 	public RayTraceResult hook_collisionRayTrace(RayTraceResult normalResult, World world, BlockPos pos, Vec3d src, Vec3d dst) {return normalResult;}
 
 	/** Call this from getDrops for cover-supporting blocks, before returning. Pass it the result you were going to return. */
-	public ArrayList<ItemStack> hook_getDrops(List<ItemStack> drops, IBlockAccess world, BlockPos pos, int metadata, int fortune) {return drops instanceof ArrayList<?> ? (ArrayList<ItemStack>)drops : new ArrayList<ItemStack>(drops);}
+	public ArrayList<ItemStack> hook_getDrops(List<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {return drops instanceof ArrayList<?> ? (ArrayList<ItemStack>)drops : new ArrayList<ItemStack>(drops);}
 
 	/** Call this from your renderer's renderWorldBlock for cover-supporting blocks, before returning.
 	 * If it returns true (indicating it rendered something), then return true.

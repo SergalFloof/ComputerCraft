@@ -73,7 +73,7 @@ public class TileRFIDWriter extends TilePeriphs implements IPeripheral, IInvento
 		int i = facing | (state << 8) | (visualProgress << 16) | (heldCardColour << 24);
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setInteger("i", i);
-		return new SPacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, tag);
+		return new SPacketUpdateTileEntity(pos, 0, tag);
 	}
 	
 	@Override
@@ -301,7 +301,7 @@ public class TileRFIDWriter extends TilePeriphs implements IPeripheral, IInvento
 		if(var1 != 0)
 			return null;
 		
-		if(contents == null || contents.stackSize <= var2) {
+		if(contents == null || contents.getCount() <= var2) {
 			ItemStack rv = contents;
 			contents = null;
 			return rv;
@@ -334,19 +334,21 @@ public class TileRFIDWriter extends TilePeriphs implements IPeripheral, IInvento
 	public int getInventoryStackLimit() {
 		return 64;
 	}
-
+	
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1) {
-		return var1.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) <= 64;
+	public boolean isUsableByPlayer(EntityPlayer var1) {
+		int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
+		return var1.getDistanceSq(x + 0.5, y + 0.5, z + 0.5) <= 64;
 	}
-
 	@Override
-	public void openInventory() {
+	public void openInventory(EntityPlayer player) {
 		
 	}
 
 	@Override
-	public void closeInventory() {
+	public void closeInventory(EntityPlayer player) {
 		
 	}
 	
@@ -360,7 +362,7 @@ public class TileRFIDWriter extends TilePeriphs implements IPeripheral, IInvento
 		
 		// no isRemote check
 		
-		ItemStack h = ply.getCurrentEquippedItem();
+		ItemStack h = ply.getHeldItemMainhand();
 		if(h != null && h.getItem() == ImmibisPeripherals.itemRFID && contents == null) {
 			contents = h;
 			ply.destroyCurrentEquippedItem();

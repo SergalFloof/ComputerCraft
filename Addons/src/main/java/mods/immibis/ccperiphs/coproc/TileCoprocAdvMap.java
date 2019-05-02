@@ -419,7 +419,7 @@ public class TileCoprocAdvMap extends TileCoprocBase {
 				if(curNBT == null)
 					throw new LuaException("no NBT loaded");
 				te.readFromNBT(curNBT);
-				te.getWorld().markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
+				te.getWorld().notifyBlockUpdate(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ());
 				return null;
 			}
 			return null;

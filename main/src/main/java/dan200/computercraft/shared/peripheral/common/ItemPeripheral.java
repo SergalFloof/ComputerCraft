@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 import java.util.List;
 
@@ -66,17 +67,16 @@ public class ItemPeripheral extends ItemPeripheralBase
         }
         return stack;
     }
-
+    
     @Override
-    public void getSubItems( Item itemID, CreativeTabs tabs, List list )
-    {
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
     	list.add( PeripheralItemFactory.create( PeripheralType.DiskDrive, null, 1 ) );
         list.add( PeripheralItemFactory.create( PeripheralType.Printer, null, 1 ) );
         list.add( PeripheralItemFactory.create( PeripheralType.Monitor, null, 1 ) );
         list.add( PeripheralItemFactory.create( PeripheralType.AdvancedMonitor, null, 1 ) );
         list.add( PeripheralItemFactory.create( PeripheralType.WirelessModem, null, 1 ) );
     }
-
+    
     @Override
     public PeripheralType getPeripheralType( int damage )
     {

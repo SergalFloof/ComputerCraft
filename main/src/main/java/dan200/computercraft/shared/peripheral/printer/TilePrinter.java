@@ -192,7 +192,7 @@ public class TilePrinter extends TilePeripheralBase
 				return null;
 			}
 			
-			if( m_inventory[i].stackSize <= j )
+			if( m_inventory[i].getCount() <= j )
 			{
 				ItemStack itemstack = m_inventory[i];
 				m_inventory[i] = null;
@@ -202,7 +202,7 @@ public class TilePrinter extends TilePeripheralBase
 			}
 			
 			ItemStack part = m_inventory[i].splitStack(j);
-			if( m_inventory[i].stackSize == 0 )
+			if( m_inventory[i].getCount() == 0 )
 			{
 				m_inventory[i] = null;
 				updateAnim();
@@ -394,7 +394,7 @@ public class TilePrinter extends TilePeripheralBase
             ItemStack inkStack = m_inventory[0];
             if( inkStack != null && isInk(inkStack) )
             {
-                return inkStack.stackSize;
+                return inkStack.getCount();
             }
         }
         return 0;
@@ -410,7 +410,7 @@ public class TilePrinter extends TilePeripheralBase
                 ItemStack paperStack = m_inventory[i];
                 if( paperStack != null && isPaper(paperStack) )
                 {
-                    count += paperStack.stackSize;
+                    count += paperStack.getCount();
                 }
             }
         }
@@ -469,15 +469,15 @@ public class TilePrinter extends TilePeripheralBase
 				if( paperStack != null && isPaper(paperStack) )
 				{
 					// Decrement ink
-					inkStack.stackSize--;
-					if( inkStack.stackSize <= 0 )
+					inkStack.getCount()--;
+					if( inkStack.getCount() <= 0 )
 					{
 						m_inventory[0] = null;
 					}
 										
 					// Decrement paper
-					paperStack.stackSize--;
-					if( paperStack.stackSize <= 0 )
+					paperStack.getCount()--;
+					if( paperStack.getCount() <= 0 )
 					{
 						m_inventory[i] = null;
 						updateAnim();

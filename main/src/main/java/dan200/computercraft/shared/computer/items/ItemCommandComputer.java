@@ -13,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 
 import java.util.List;
 
@@ -49,11 +50,10 @@ public class ItemCommandComputer extends ItemComputer
 
         return result;
     }
-
+    
     @Override
-    public void getSubItems( Item itemID, CreativeTabs tabs, List list )
-    {
-        list.add( ComputerItemFactory.create( -1, null, ComputerFamily.Command ) );
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+    	items.add( ComputerItemFactory.create( -1, null, ComputerFamily.Command ) );
     }
 
     // IComputerItem implementation

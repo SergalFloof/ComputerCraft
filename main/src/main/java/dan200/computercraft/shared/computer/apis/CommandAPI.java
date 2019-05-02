@@ -82,7 +82,7 @@ public class CommandAPI implements ILuaAPI
         return result;
     }
 
-    private Object[] doCommand( String command )
+    private Object[] doCommand( String command, World world )
     {
         MinecraftServer server = world.getMinecraftServer();
         if( server != null && server.isCommandBlockEnabled() )
@@ -93,7 +93,7 @@ public class CommandAPI implements ILuaAPI
                 TileCommandComputer.CommandSender sender = m_computer.getCommandSender();
                 sender.clearOutput();
 
-                int result = commandManager.executeCommand( sender, command );
+                int result = commandManager.executeCommand(sender, command);
                 return new Object[]{ (result > 0), sender.copyOutput() };
             }
             catch( Throwable t )
@@ -157,7 +157,7 @@ public class CommandAPI implements ILuaAPI
                     @Override
                     public Object[] execute() throws LuaException
                     {
-                        return doCommand( command );
+                        return doCommand( command, null );
                     }
                 } );
             }
@@ -189,7 +189,7 @@ public class CommandAPI implements ILuaAPI
                     {
                         int i = 1;
                         Map<Object, Object> result = new HashMap<Object, Object>();
-                        MinecraftServer server = MinecraftServer.getServer();
+                        MinecraftServer server = world.getMinecraftServer();
                         if( server != null )
                         {
                             ICommandManager commandManager = server.getCommandManager();

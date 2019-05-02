@@ -23,7 +23,7 @@ public abstract class TileCombined extends PortableTileEntity {
 			List<ItemStack> list = new ArrayList<ItemStack>();
 			for(int k = 0; k < inv.getSizeInventory(); k++) {
 				ItemStack is = inv.getStackInSlot(k);
-				if(is != null && is.stackSize > 0) {
+				if(is != null && is.getCount() > 0) {
 					inv.setInventorySlotContents(k, null);
 					list.add(is);
 				}
@@ -44,8 +44,9 @@ public abstract class TileCombined extends PortableTileEntity {
 	
 	public void resendDescriptionPacket() {
 		world.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}public TileCombined() {
+		// TODO Auto-generated constructor stub
 	}
-	
 	@Override
 	public Packet getDescriptionPacket() {
 		return null;
@@ -56,10 +57,10 @@ public abstract class TileCombined extends PortableTileEntity {
 	
 	
 	private void notifyComparator(int x, int y, int z) {
-		if(world.blockExists(x, y, z)) {
-			Block block = worldObj.getBlock(x, y, z);
-			if(block.equals(Blocks.unpowered_comparator)|| block.equals(Blocks.powered_comparator))
-				worldObj.notifyBlockOfNeighborChange(x, y, z, getBlockType());
+		if(world.blockExists(pos)) {
+			Block block = world.getBlock(x, y, z);
+			if(block.equals(Blocks.UNPOWERED_COMPARATOR)|| block.equals(Blocks.POWERED_COMPARATOR))
+				world.notifyBlockOfNeighborChange(x, y, z, getBlockType());
 		}
 	}
 	public void notifyComparators() {

@@ -98,7 +98,7 @@ public class ContainerPrinter extends Container
 	@Override
     public boolean canInteractWith( EntityPlayer player )
     {
-        return m_printer.isUseableByPlayer( player );
+        return m_printer.isUsableByPlayer(player);
     }
 
 	@Override
@@ -137,7 +137,7 @@ public class ContainerPrinter extends Container
 				}
 			}
             
-            if(itemstack1.stackSize == 0)
+            if(itemstack1.getCount() == 0)
             {
                 slot.putStack(null);
             }
@@ -146,9 +146,9 @@ public class ContainerPrinter extends Container
                 slot.onSlotChanged();
             }
             
-            if(itemstack1.stackSize != itemstack.stackSize)
+            if(itemstack1.getCount() != itemstack.getCount())
             {
-                slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+                slot.onTake(par1EntityPlayer, itemstack1);
             }
             else
             {

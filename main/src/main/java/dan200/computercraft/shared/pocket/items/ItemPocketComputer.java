@@ -28,6 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
@@ -73,11 +74,10 @@ public class ItemPocketComputer extends Item implements IComputerItem, IMedia
         }
         return result;
     }
-
+    
     @Override
-    public void getSubItems( Item itemID, CreativeTabs tabs, List list )
-    {
-        list.add( PocketComputerItemFactory.create( -1, null, ComputerFamily.Normal, false ) );
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+    	list.add( PocketComputerItemFactory.create( -1, null, ComputerFamily.Normal, false ) );
         list.add( PocketComputerItemFactory.create( -1, null, ComputerFamily.Normal, true ) );
         list.add( PocketComputerItemFactory.create( -1, null, ComputerFamily.Advanced, false ) );
         list.add( PocketComputerItemFactory.create( -1, null, ComputerFamily.Advanced, true ) );

@@ -9,6 +9,7 @@ package dan200.computercraft.shared.proxy;
 import dan200.computercraft.ComputerCraft;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.core.computer.MainThread;
+import dan200.computercraft.server.proxy.ComputerCraftProxyServer;
 import dan200.computercraft.shared.common.DefaultBundledRedstoneProvider;
 import dan200.computercraft.shared.common.TileGeneric;
 import dan200.computercraft.shared.computer.blocks.BlockCommandComputer;
@@ -48,8 +49,6 @@ import dan200.computercraft.shared.pocket.items.PocketComputerItemFactory;
 import dan200.computercraft.shared.pocket.recipes.PocketComputerUpgradeRecipe;
 import dan200.computercraft.shared.util.Colour;
 import dan200.computercraft.shared.util.CreativeTabMain;
-import dan200.computercraft.shared.util.ImpostorRecipe;
-import dan200.computercraft.shared.util.ImpostorShapelessRecipe;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -282,30 +281,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
         // Disk
 		GameRegistry.addRecipe( new DiskRecipe() );
 
-        // Impostor Disk recipes (to fool NEI)
-		ItemStack paper = new ItemStack( Items.paper, 1 );
-		ItemStack redstone = new ItemStack( Items.redstone, 1 );
-		ItemStack basicDisk = ItemDiskLegacy.createFromIDAndColour( -1, null, Colour.Blue.getHex() );
-		GameRegistry.addRecipe( new ImpostorShapelessRecipe( basicDisk, new Object[] { redstone, paper } ) );
-
-		for( int colour=0; colour<16; ++colour )
-		{
-			ItemStack disk = ItemDiskLegacy.createFromIDAndColour( -1, null, Colour.values()[ colour ].getHex() );
-			ItemStack dye = new ItemStack( Items.dye, 1, colour );
-			for( int otherColour=0; otherColour<16; ++otherColour )
-			{
-				if( colour != otherColour )
-				{
-					ItemStack otherDisk = ItemDiskLegacy.createFromIDAndColour( -1, null, Colour.values()[ colour ].getHex() );
-					GameRegistry.addRecipe( new ImpostorShapelessRecipe( disk, new Object[] {
-                        otherDisk, dye
-                    } ) );
-				}
-			}
-			GameRegistry.addRecipe( new ImpostorShapelessRecipe( disk, new Object[] {
-                redstone, paper, dye
-            } ) );
-		}
+       
 
 		// Printout
         GameRegistry.addRecipe( new PrintoutRecipe() );
@@ -313,13 +289,6 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 		ItemStack singlePrintout = ItemPrintout.createSingleFromTitleAndText( null, null, null );
 		ItemStack multiplePrintout = ItemPrintout.createMultipleFromTitleAndText( null, null, null );
 		ItemStack bookPrintout = ItemPrintout.createBookFromTitleAndText( null, null, null );
-
-		// Impostor Printout recipes (to fool NEI)
-		ItemStack string = new ItemStack( Items.string, 1, 0 );
-		GameRegistry.addRecipe( new ImpostorShapelessRecipe( multiplePrintout, new Object[] { singlePrintout, singlePrintout, string } ) );
-
-		ItemStack leather = new ItemStack( Items.leather, 1, 0 );
-		GameRegistry.addRecipe( new ImpostorShapelessRecipe( bookPrintout, new Object[] { leather, singlePrintout, string } ) );
 
         
 
@@ -329,11 +298,6 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 
         // Advanced Wireless Pocket Computer
         ItemStack advancedWirelessPocketComputer = PocketComputerItemFactory.create( -1, null, ComputerFamily.Advanced, true );
-
-        // Impostor Pocket Computer recipes (to fool NEI)
-        GameRegistry.addRecipe( new ImpostorRecipe( 1, 2, new ItemStack[] { wirelessModem, pocketComputer }, wirelessPocketComputer ) );
-        GameRegistry.addRecipe( new ImpostorRecipe( 1, 2, new ItemStack[] { wirelessModem, advancedPocketComputer }, advancedWirelessPocketComputer ) );
-
        
 	}
 	

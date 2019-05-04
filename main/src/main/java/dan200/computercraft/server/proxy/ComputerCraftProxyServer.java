@@ -12,6 +12,7 @@ import dan200.computercraft.shared.peripheral.diskdrive.TileDiskDrive;
 import dan200.computercraft.shared.peripheral.printer.TilePrinter;
 import dan200.computercraft.shared.proxy.ComputerCraftProxyCommon;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -20,6 +21,9 @@ import java.io.File;
 
 public class ComputerCraftProxyServer extends ComputerCraftProxyCommon
 {
+	
+	public void registerItemRenderer(Item item, int meta, String id) {};
+	public void registerVariantRenderer(Item item, int meta, String filename, String id) {};
 	public ComputerCraftProxyServer()
 	{
 	}

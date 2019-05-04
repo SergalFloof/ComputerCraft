@@ -59,7 +59,7 @@ public abstract class BlockGeneric extends Block implements
         }
         return drops;
     }
-    
+
     @Override
     public final IBlockState onBlockPlaced( World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int damage, EntityLivingBase placer )
     {
@@ -81,7 +81,6 @@ public abstract class BlockGeneric extends Block implements
         // Remove block
         return super.removedByPlayer( state, world, pos, player, willHarvest );
     }
-
 
     public final void dropAllItems( World world, BlockPos pos, int fortune, boolean creative, boolean silkTouch )
     {
@@ -123,9 +122,9 @@ public abstract class BlockGeneric extends Block implements
     	super.breakBlock( world, pos, newState );
         world.removeTileEntity( pos );
     }
+    
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
-    		EntityPlayer player) {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
     	TileEntity tile = world.getTileEntity( pos );
         if( tile != null && tile instanceof TileGeneric )
         {
@@ -134,19 +133,23 @@ public abstract class BlockGeneric extends Block implements
         }
         return null;
     }
+
+//    @Override
+//    protected final ItemStack createStackedBlock( IBlockState state )
+//    {
+//        return null;
+//    }
     
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-    		EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-    	TileEntity tile = worldIn.getTileEntity( pos );
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    	TileEntity tile = world.getTileEntity( pos );
         if( tile != null && tile instanceof TileGeneric )
         {
             TileGeneric generic = (TileGeneric)tile;
-            return generic.onActivate( playerIn, facing, hitX, hitY, hitZ );
+            return generic.onActivate( player, side, hitX, hitY, hitZ );
         }
         return false;
     }
-
 
     @Override
     public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
@@ -158,21 +161,22 @@ public abstract class BlockGeneric extends Block implements
         }
     }
     
-   @Override
-public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-	   TileEntity tile = world.getTileEntity( pos );
-       if( tile != null && tile instanceof TileGeneric )
-       {
-           TileGeneric generic = (TileGeneric)tile;
-           return generic.isSolidOnSide( side.ordinal() );
-       }
-       return false;
-}
-   
-   @Override
-public boolean canBeReplacedByLeaves(IBlockState state, IBlockAccess world, BlockPos pos) {
-	return false;
-}
+    
+    @Override
+    public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    	TileEntity tile = world.getTileEntity( pos );
+        if( tile != null && tile instanceof TileGeneric )
+        {
+            TileGeneric generic = (TileGeneric)tile;
+            return generic.isSolidOnSide( side.ordinal() );
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean canBeReplacedByLeaves(IBlockState state, IBlockAccess world, BlockPos pos) {
+    	return false; // Generify me if anyone ever feels the need to change this
+    }
 
     @Override
     public float getExplosionResistance( World world, BlockPos pos, Entity exploder, Explosion explosion )
@@ -189,14 +193,13 @@ public boolean canBeReplacedByLeaves(IBlockState state, IBlockAccess world, Bloc
         return super.getExplosionResistance( exploder );
     }
 
-    private void setBlockBounds( AxisAlignedBB bounds )
-    {
-        setBlockBounds(
-            (float)bounds.minX, (float)bounds.minY, (float)bounds.minZ,
-            (float)bounds.maxX, (float)bounds.maxY, (float)bounds.maxZ
-        );
-    }
-    
+//    private void setBlockBounds( AxisAlignedBB bounds )
+//    {
+//        setBlockBounds(
+//            (float)bounds.minX, (float)bounds.minY, (float)bounds.minZ,
+//            (float)bounds.maxX, (float)bounds.maxY, (float)bounds.maxZ
+//        );
+//    }
 
     @Override
     public final void setBlockBoundsBasedOnState( IBlockAccess world, BlockPos pos )
@@ -234,7 +237,7 @@ public boolean canBeReplacedByLeaves(IBlockState state, IBlockAccess world, Bloc
                 while( it.hasNext() )
                 {
                     AxisAlignedBB localBounds = it.next();
-                    setBlockBounds( localBounds );
+                    setBlockBoundsBasedOnState(world, pos);
 
                     AxisAlignedBB bounds = super.getCollisionBoundingBox( state, world, pos);
                     if( bounds != null && bigBox.intersects(bounds) )
@@ -250,7 +253,6 @@ public boolean canBeReplacedByLeaves(IBlockState state, IBlockAccess world, Bloc
     public boolean canProvidePower(IBlockState state) {
     	return true;
     }
-    
     @Override
     public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
     	TileEntity tile = world.getTileEntity( pos );
@@ -263,7 +265,7 @@ public boolean canBeReplacedByLeaves(IBlockState state, IBlockAccess world, Bloc
     }
     
     @Override
-    public int getStrongPower(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public int getStrongPower(IBlockState world, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
     	TileEntity tile = world.getTileEntity( pos );
         if( tile != null && tile instanceof TileGeneric && tile.hasWorld() )
         {
@@ -272,6 +274,7 @@ public boolean canBeReplacedByLeaves(IBlockState state, IBlockAccess world, Bloc
         }
         return 0;
     }
+    
     
     @Override
     public int getWeakPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {

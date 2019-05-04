@@ -9,7 +9,6 @@ package dan200.computercraft.shared.util;
 import dan200.computercraft.ComputerCraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -27,7 +26,7 @@ public class RedstoneUtil
         return null;
     }
 
-    public static int getRedstoneOutput( IBlockState state, World world, BlockPos pos, EnumFacing side )
+    public static int getRedstoneOutput( World world, BlockPos pos, EnumFacing side )
     {
         int power = 0;
         Block block = getBlock( world, pos );
@@ -44,11 +43,11 @@ public class RedstoneUtil
                     power = 0;
                 }
             }
-            else if( block.canProvidePower(state))
+            else if( block.canProvidePower(world.getBlockState( pos )) )
             {
-                power = block.getWeakPower( state, world, pos, side.getOpposite() );
+                power = block.getWeakPower(world.getBlockState( pos ), world, pos, side.getOpposite());
             }
-            if( block.isNormalCube(state, world, pos) )
+            if( block.isNormalCube(world.getBlockState( pos )))
             {
                 for( EnumFacing testSide : EnumFacing.VALUES )
                 {
@@ -56,9 +55,9 @@ public class RedstoneUtil
                     {
                         BlockPos testPos = pos.offset( testSide );
                         Block neighbour = getBlock( world, testPos );
-                        if( neighbour != null && neighbour.canProvidePower(state) )
+                        if( neighbour != null && neighbour.canProvidePower(world.getBlockState( pos )));
                         {
-                            power = Math.max( power, neighbour.getStrongPower( state, world, testPos, testSide.getOpposite() ) );
+                            power = Math.max( power, neighbour.getStrongPower(world.getBlockState( pos ), world, testPos, testSide.getOpposite()));
                         }
                     }
                 }
@@ -77,7 +76,7 @@ public class RedstoneUtil
         return 0;
     }
 
-    public static void propogateRedstoneOutput( IBlockState state, World world, BlockPos pos, EnumFacing side )
+    public static void propogateRedstoneOutput( World world, BlockPos pos, EnumFacing side )
     {
         // Propogate ordinary output
         Block block = getBlock( world, pos );
@@ -86,7 +85,7 @@ public class RedstoneUtil
         if( neighbour != null && neighbour != Blocks.AIR )
         {
             world.notifyNeighborsOfStateChange(neighbourPos, block, true);
-            if( neighbour.isNormalCube( state, world, neighbourPos ) )
+            if( neighbour.isNormalCube(world.getBlockState(pos), world, neighbourPos));
             {
                 world.notifyNeighborsOfStateExcept( neighbourPos, neighbour, side.getOpposite() );
             }

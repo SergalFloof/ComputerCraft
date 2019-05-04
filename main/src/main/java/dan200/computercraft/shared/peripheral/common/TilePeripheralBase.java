@@ -150,7 +150,7 @@ public abstract class TilePeripheralBase extends TileGeneric
     }
 
 	@Override	
-    public void writeToNBT( NBTTagCompound nbttagcompound )
+    public NBTTagCompound writeToNBT( NBTTagCompound nbttagcompound )
     {
 		// Write properties
         super.writeToNBT( nbttagcompound );
@@ -160,6 +160,7 @@ public abstract class TilePeripheralBase extends TileGeneric
         {
             nbttagcompound.setString( "label", m_label );
         }
+		return nbttagcompound;
     }
 
     @Override

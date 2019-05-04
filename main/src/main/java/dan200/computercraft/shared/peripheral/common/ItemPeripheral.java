@@ -76,7 +76,7 @@ public class ItemPeripheral extends ItemPeripheralBase
         list.add( PeripheralItemFactory.create( PeripheralType.AdvancedMonitor, null, 1 ) );
         list.add( PeripheralItemFactory.create( PeripheralType.WirelessModem, null, 1 ) );
     }
-    
+
     @Override
     public PeripheralType getPeripheralType( int damage )
     {

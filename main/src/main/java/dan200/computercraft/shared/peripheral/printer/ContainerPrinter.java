@@ -59,32 +59,32 @@ public class ContainerPrinter extends Container
     	return m_lastPrinting;
     }
 
-	@Override
-	public void onCraftGuiOpened( ICrafting crafting )
-	{
-		super.onCraftGuiOpened( crafting );
-		crafting.sendProgressBarUpdate( this, 0, m_printer.isPrinting() ? 1 : 0 );
-	}
+//	@Override
+//	public void onCraftGuiOpened( ICrafting crafting )
+//	{
+//		super.onCraftGuiOpened( crafting );
+//		crafting.sendProgressBarUpdate( this, 0, m_printer.isPrinting() ? 1 : 0 );
+//	}
 	
-	@Override
-    public void detectAndSendChanges()
-    {
-        super.detectAndSendChanges();
-		
-		if( !m_printer.getWorld().isRemote )
-		{
-			boolean printing = m_printer.isPrinting();
-			for (int i=0; i<crafters.size(); ++i)
-			{
-				ICrafting icrafting = (ICrafting)crafters.get(i);					
-				if( printing != m_lastPrinting )
-				{
-					icrafting.sendProgressBarUpdate( this, 0, printing ? 1 : 0 );
-				}
-			}
-			m_lastPrinting = printing;
-		}
-	}
+//	@Override
+//    public void detectAndSendChanges()
+//    {
+//        super.detectAndSendChanges();
+//		
+//		if( !m_printer.getWorld().isRemote )
+//		{
+//			boolean printing = m_printer.isPrinting();
+//			for (int i=0; i<crafters.size(); ++i)
+//			{
+//				ICrafting icrafting = (ICrafting)crafters.get(i);					
+//				if( printing != m_lastPrinting )
+//				{
+//					icrafting.sendProgressBarUpdate( this, 0, printing ? 1 : 0 );
+//				}
+//			}
+//			m_lastPrinting = printing;
+//		}
+//	}
 	
 	@Override
     public void updateProgressBar(int i, int j)
@@ -98,7 +98,7 @@ public class ContainerPrinter extends Container
 	@Override
     public boolean canInteractWith( EntityPlayer player )
     {
-        return m_printer.isUsableByPlayer(player);
+        return m_printer.isUsableByPlayer( player );
     }
 
 	@Override

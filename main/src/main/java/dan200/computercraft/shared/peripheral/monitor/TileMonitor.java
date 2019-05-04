@@ -112,7 +112,7 @@ public class TileMonitor extends TilePeripheralBase
     }
 
     @Override
-    public void writeToNBT( NBTTagCompound nbttagcompound )
+    public NBTTagCompound writeToNBT( NBTTagCompound nbttagcompound )
     {
         super.writeToNBT(nbttagcompound);
 		nbttagcompound.setInteger( "xIndex", m_xIndex );
@@ -120,6 +120,7 @@ public class TileMonitor extends TilePeripheralBase
 		nbttagcompound.setInteger( "width", m_width );
 		nbttagcompound.setInteger( "height", m_height );
 		nbttagcompound.setInteger( "dir", m_dir );
+		return nbttagcompound;
     }
 
     @Override

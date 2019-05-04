@@ -65,7 +65,7 @@ public abstract class TileGeneric extends TileEntity
 
     public final void updateBlock()
     {
-        world.notifyBlockUpdate( getPos(), world.getBlockState(getPos()), world.getBlockState(getPos()), meta );
+        world.markBlockForUpdate( getPos() );
         world.markChunkDirty( getPos(), this );
     }
 
@@ -185,7 +185,7 @@ public abstract class TileGeneric extends TileEntity
     }
 
     @Override
-    public final SPacketUpdateTileEntity getUpdatePacket()
+    public final Packet getDescriptionPacket()
     {
         // Communicate properties
         NBTTagCompound nbttagcompound = new NBTTagCompound();

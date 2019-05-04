@@ -9,6 +9,7 @@ package dan200.computercraft.core.apis;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.ILuaObject;
 import dan200.computercraft.api.lua.LuaException;
+import net.minecraft.world.World;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -80,7 +81,7 @@ public class HTTPAPI implements ILuaAPI
 			}
 			
 			@Override
-			public Object[] callMethod( ILuaContext context, int method, Object[] args ) throws LuaException
+			public Object[] callMethod( ILuaContext context, int method, Object[] args) throws LuaException
 			{
 				switch( method )
 				{
@@ -164,7 +165,7 @@ public class HTTPAPI implements ILuaAPI
     }
 
 	@Override
-    public Object[] callMethod( ILuaContext context, int method, Object[] args ) throws LuaException
+    public Object[] callMethod( ILuaContext context, int method, Object[] args) throws LuaException
     {
         switch( method )
         {

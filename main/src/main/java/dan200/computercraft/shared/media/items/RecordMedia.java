@@ -16,6 +16,8 @@ import net.minecraft.world.World;
 // An implementation of IMedia for ItemRecord's
 public class RecordMedia implements IMedia
 {
+	
+	public World world;
 	public RecordMedia()
 	{
 	}
@@ -35,15 +37,14 @@ public class RecordMedia implements IMedia
 	@Override
 	public String getAudioTitle( ItemStack stack )
 	{
-		return ComputerCraft.getRecordInfo( stack );
+		return ComputerCraft.getRecordInfo( stack, world );
 	}
 	
 	@Override
 	public String getAudioRecordName( ItemStack stack )
 	{
-		return null;
-//		ItemRecord itemRecord = (ItemRecord)stack.getItem();
-//		return "records." + itemRecord.recordName;
+		ItemRecord itemRecord = (ItemRecord)stack.getItem();
+		return "records." + itemRecord.getRecordNameLocal();
 	}
     
 	@Override

@@ -105,7 +105,7 @@ public class TilePrinter extends TilePeripheralBase
     }
 
 	@Override	
-    public void writeToNBT(NBTTagCompound nbttagcompound)
+    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
 
@@ -133,6 +133,7 @@ public class TilePrinter extends TilePeripheralBase
 			}
 			nbttagcompound.setTag("Items", nbttaglist);
 		}
+		return nbttagcompound;
     }
 
     @Override
@@ -291,7 +292,6 @@ public class TilePrinter extends TilePeripheralBase
     {
         return true;
     }
-    
     @Override
     public boolean isUsableByPlayer(EntityPlayer player) {
     	return isUsable( player, false );
@@ -469,14 +469,14 @@ public class TilePrinter extends TilePeripheralBase
 				if( paperStack != null && isPaper(paperStack) )
 				{
 					// Decrement ink
-					inkStack.getCount()--;
+					inkStack.shrink(-1);
 					if( inkStack.getCount() <= 0 )
 					{
 						m_inventory[0] = null;
 					}
 										
 					// Decrement paper
-					paperStack.getCount()--;
+					paperStack.shrink(-1);
 					if( paperStack.getCount() <= 0 )
 					{
 						m_inventory[i] = null;
@@ -597,4 +597,10 @@ public class TilePrinter extends TilePeripheralBase
 			setAnim( anim );
 		}
     }
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

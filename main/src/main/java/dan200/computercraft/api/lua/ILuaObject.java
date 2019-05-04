@@ -6,6 +6,8 @@
 
 package dan200.computercraft.api.lua;
 
+import net.minecraft.world.World;
+
 /**
  * An interface for representing custom objects returned by IPeripheral.callMethod() calls.
  * Return objects implementing this interface to expose objects with methods to lua.

@@ -237,7 +237,7 @@ public class InventoryUtil
 					if( space >= remainder.getCount() )
 					{
                         // Items fit completely in slot
-						slotContents.stackSize += remainder.getCount();
+						slotContents.setCount(+ remainder.getCount());
 						inventory.setInventorySlotContents( slot, slotContents );
 						inventory.markDirty();
 						return null;
@@ -246,8 +246,8 @@ public class InventoryUtil
 					{
                         // Items fit partially in slot
                         remainder = remainder.copy();
-                        remainder.stackSize -= space;
-						slotContents.stackSize += space;
+                        remainder.shrink(-space);
+						slotContents.setCount(+ space);
 						inventory.setInventorySlotContents( slot, slotContents );
 					}
 				}
@@ -308,7 +308,7 @@ public class InventoryUtil
                             }
                             else
                             {
-                                partialStack.stackSize += stack.stackSize;
+                                partialStack.setCount(+ stack.getCount());
                                 countRemaining -= stack.getCount();
                             }
                         }
@@ -323,8 +323,8 @@ public class InventoryUtil
                             }
                             else
                             {
-                                partialStack.stackSize += splitStack.stackSize;
-                                countRemaining -= splitStack.stackSize;
+                                partialStack.setCount(+ splitStack.getCount());
+                                countRemaining -= splitStack.getCount();
                             }
                         }
                     }

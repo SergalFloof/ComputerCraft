@@ -42,7 +42,7 @@ public class BlockCable extends BlockPeripheralBase
         Block block = world.getBlockState( pos ).getBlock();
         if( block == ComputerCraft.Blocks.cable )
         {
-            switch( ComputerCraft.Blocks.cable.getPeripheralType( world, pos ) )
+            switch( ComputerCraft.Blocks.cable.getPeripheralType(world, pos))
             {
                 case Cable:
                 case WiredModemWithCable:

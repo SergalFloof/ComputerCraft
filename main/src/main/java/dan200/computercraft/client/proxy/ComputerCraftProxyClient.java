@@ -21,7 +21,6 @@ import dan200.computercraft.shared.peripheral.monitor.TileMonitor;
 import dan200.computercraft.shared.peripheral.printer.TilePrinter;
 import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
 import dan200.computercraft.shared.proxy.ComputerCraftProxyCommon;
-import dan200.computercraft.shared.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -33,7 +32,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IThreadListener;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -100,7 +98,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
 
         registerItemModel( ComputerCraft.Items.disk, "disk" );
         registerItemModel( ComputerCraft.Items.diskExpanded, "diskExpanded" );
-        registerItemModel( ComputerCraft.Items.treasureDisk, "treasureDisk" );
+//        registerItemModel( ComputerCraft.Items.treasureDisk, "treasureDisk" );
         registerItemModel( ComputerCraft.Items.printout, 0, "printout" );
         registerItemModel( ComputerCraft.Items.printout, 1, "pages" );
         registerItemModel( ComputerCraft.Items.printout, 2, "book" );
@@ -186,7 +184,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         name = "computercraft:" + name;
         ModelResourceLocation res = new ModelResourceLocation( name, "inventory" );
-        ModelBakery.registerItemVariants( item, new ResourceLocation(Reference.MODID) );
+        ModelBakery.registerItemVariants(item, name);
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, damage, res );
     }
 
@@ -199,7 +197,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         name = "computercraft:" + name;
         final ModelResourceLocation res = new ModelResourceLocation( name, "inventory" );
-        ModelBakery.registerItemVariants( item, new ResourceLocation(Reference.MODID) );
+        ModelBakery.registerItemVariants( item, name );
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, new ItemMeshDefinition()
         {
             @Override
@@ -219,7 +217,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         for( int i=0; i<names.length; ++i )
         {
-            ModelBakery.registerItemVariants( item, new ResourceLocation(Reference.MODID) );
+            ModelBakery.registerItemVariants( item, "computercraft:" + names[i] );
         }
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, definition );
     }
@@ -254,20 +252,19 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
 		return m_fixedWidthFontRenderer;
 	}
 			
-	@Override
-	public String getRecordInfo( ItemStack recordStack )
+    @Override
+	public String getRecordInfo( ItemStack recordStack, World world)
 	{
 		List info = new ArrayList(1);
-		recordStack.getItem().addInformation(recordStack, null, info, null);
+		recordStack.getItem().addInformation(recordStack, world, info, null);
 		if( info.size() > 0 ) {
 			return info.get(0).toString();
 		} else {
-			return super.getRecordInfo( recordStack );
+			return super.getRecordInfo( recordStack, world );
 		}
 	}
 	
-	
-	@Override
+    @Override
 	public void playRecord( String record, String recordInfo, World world, BlockPos pos )
 	{
 		Minecraft mc = FMLClientHandler.instance().getClient();
@@ -323,11 +320,10 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
 	{
 		return new File( ComputerCraft.getBaseDir(), "saves/" + world.getSaveHandler().getWorldDirectory() );
 	}
-
-    @Override
-    public void handlePacket( final ComputerCraftPacket packet, final EntityPlayer player )
-    {
-        switch( packet.m_packetType )
+	
+	@Override
+	public void handlePacket(ComputerCraftPacket packet, EntityPlayer player, World world) {
+		switch( packet.m_packetType )
         {
             case ComputerCraftPacket.ComputerChanged:
             case ComputerCraftPacket.ComputerDeleted:
@@ -357,11 +353,11 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
             default:
             {
                 // Packet from Client to Server
-                super.handlePacket( packet, player );
+                super.handlePacket( packet, player, world );
                 break;
             }
         }
-    }
+	}
 
     private void processPacket( ComputerCraftPacket packet, EntityPlayer player )
     {
@@ -404,8 +400,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
 		public ForgeHandlers()
 		{
 		}
-
-
+		
         @SubscribeEvent
         public void onTick( TickEvent.ClientTickEvent event )
         {
@@ -424,5 +419,4 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
             }
         }
 	}
-
 }

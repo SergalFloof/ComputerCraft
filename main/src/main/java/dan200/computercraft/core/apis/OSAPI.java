@@ -8,6 +8,7 @@ package dan200.computercraft.core.apis;
 
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
+import net.minecraft.world.World;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -191,7 +192,7 @@ public class OSAPI implements ILuaAPI
     }
 
 	@Override
-    public Object[] callMethod( ILuaContext context, int method, Object[] args ) throws LuaException
+    public Object[] callMethod( ILuaContext context, int method, Object[] args) throws LuaException
     {
 		switch( method )
 		{

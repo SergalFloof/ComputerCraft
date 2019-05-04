@@ -7,7 +7,6 @@
 package dan200.computercraft.shared.media.items;
 
 import dan200.computercraft.ComputerCraft;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -40,6 +39,7 @@ public class ItemPrintout extends Item
 		setUnlocalizedName( "computercraft:page" );
         setCreativeTab( ComputerCraft.mainCreativeTab );
     }
+    
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
     	list.add( createSingleFromTitleAndText( null, new String[ LINES_PER_PAGE ], new String[ LINES_PER_PAGE ] ) );
@@ -47,14 +47,15 @@ public class ItemPrintout extends Item
     	list.add( createBookFromTitleAndText( null, new String[ 2*LINES_PER_PAGE ], new String[ 2*LINES_PER_PAGE ] ) );
     }
     
-    @Override
-    public void addInformation(ItemStack stack, World worldIn, List<String> list, ITooltipFlag flagIn) {
-    	String title = getTitle( stack );
-		if( title != null && title.length() > 0 )
-		{
-			list.add( title );
-		}
-    }
+//    @Override
+//    public void addInformation( ItemStack itemstack, EntityPlayer par2EntityPlayer, List list, boolean flag )
+//    {
+//		String title = getTitle( itemstack );
+//		if( title != null && title.length() > 0 )
+//		{
+//			list.add( title );
+//		}
+//    }
     
     @Override
     public String getUnlocalizedName( ItemStack stack )

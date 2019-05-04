@@ -15,6 +15,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.sound.SoundEvent;
 
 import java.io.File;
 
@@ -29,7 +30,7 @@ public interface IComputerCraftProxy
     public void deleteDisplayLists( int list, int range );
 	public Object getFixedWidthFontRenderer();
 
-	public String getRecordInfo( ItemStack item );
+	public String getRecordInfo( ItemStack item, World world );
 	public void playRecord( String record, String recordInfo, World world, BlockPos pos );
 
 	public Object getDiskDriveGUI( InventoryPlayer inventory, TileDiskDrive drive );
@@ -39,5 +40,5 @@ public interface IComputerCraftProxy
     public abstract Object getPocketComputerGUI( InventoryPlayer inventory );
 
 	public File getWorldDir( World world );
-	public void handlePacket( ComputerCraftPacket packet, EntityPlayer player );
+	public void handlePacket( ComputerCraftPacket packet, EntityPlayer player, World world );
 }

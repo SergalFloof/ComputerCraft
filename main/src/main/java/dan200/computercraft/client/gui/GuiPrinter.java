@@ -31,7 +31,7 @@ public class GuiPrinter extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
-        String title = m_printer.getName();
+        String title = m_printer.getDisplayName().getUnformattedText();
         fontRenderer.drawString( title, (xSize - fontRenderer.getStringWidth(title)) / 2, 6, 0x404040 );
         fontRenderer.drawString( I18n.format("container.inventory"), 8, (ySize - 96) + 2, 0x404040 );
     }

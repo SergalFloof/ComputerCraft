@@ -8,19 +8,20 @@ package dan200.computercraft.shared.network;
 
 import dan200.computercraft.ComputerCraft;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 public class PacketHandler
 {
     @SubscribeEvent
-    public void onClientPacket( FMLNetworkEvent.ClientCustomPacketEvent event )
+    public void onClientPacket( FMLNetworkEvent.ClientCustomPacketEvent event, World world )
     {
         try
         {
             ComputerCraftPacket packet = new ComputerCraftPacket();
             packet.fromBytes( event.getPacket().payload() );
-            ComputerCraft.handlePacket( packet, null );
+            ComputerCraft.handlePacket( packet, null, world );
         }
         catch( Exception e )
         {
@@ -29,13 +30,13 @@ public class PacketHandler
     }
 
     @SubscribeEvent
-    public void onServerPacket( FMLNetworkEvent.ServerCustomPacketEvent event )
+    public void onServerPacket( FMLNetworkEvent.ServerCustomPacketEvent event, World world )
     {
         try
         {
             ComputerCraftPacket packet = new ComputerCraftPacket();
             packet.fromBytes( event.getPacket().payload() );
-            ComputerCraft.handlePacket( packet, ((NetHandlerPlayServer)event.getHandler()).player );
+            ComputerCraft.handlePacket( packet, ((NetHandlerPlayServer)event.getHandler()).player, world );
         }
         catch( Exception e )
         {

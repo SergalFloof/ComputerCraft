@@ -492,12 +492,13 @@ public class TileCable extends TileModemBase
     }
 
 	@Override	
-    public void writeToNBT(NBTTagCompound nbttagcompound)
+    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
 		// Write properties
         super.writeToNBT(nbttagcompound);
 		nbttagcompound.setBoolean( "peripheralAccess", m_peripheralAccessAllowed );
 		nbttagcompound.setInteger( "peripheralID", m_attachedPeripheralID );
+		return nbttagcompound;
     }
     
     @Override

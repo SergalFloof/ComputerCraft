@@ -50,10 +50,9 @@ public class ItemCommandComputer extends ItemComputer
 
         return result;
     }
-    
     @Override
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-    	items.add( ComputerItemFactory.create( -1, null, ComputerFamily.Command ) );
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+    	list.add( ComputerItemFactory.create( -1, null, ComputerFamily.Command ) );
     }
 
     // IComputerItem implementation

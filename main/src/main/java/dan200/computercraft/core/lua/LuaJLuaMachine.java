@@ -15,6 +15,8 @@ import dan200.computercraft.core.apis.ILuaAPI;
 import dan200.computercraft.core.computer.Computer;
 import dan200.computercraft.core.computer.ITask;
 import dan200.computercraft.core.computer.MainThread;
+import net.minecraft.world.World;
+
 import org.luaj.vm2.*;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
@@ -471,7 +473,7 @@ public class LuaJLuaMachine implements ILuaMachine
                                     }
 
                                 }
-							}, method, arguments );
+							}, method, arguments);
 						}
 						catch( InterruptedException e )
 						{
@@ -538,8 +540,8 @@ public class LuaJLuaMachine implements ILuaMachine
                 while( it.hasNext() )
                 {
                     Map.Entry pair = (Map.Entry)it.next();
-                    LuaValue key = toValue( pair.getKey() );
-                    LuaValue value = toValue( pair.getValue() );
+                    LuaValue key = toValue( pair.getKey());
+                    LuaValue value = toValue( pair.getValue());
                     if( !key.isnil() && !value.isnil() )
                     {
                         table.set( key, value );
@@ -558,7 +560,7 @@ public class LuaJLuaMachine implements ILuaMachine
 		}
         else if( object instanceof ILuaObject )
         {
-			LuaValue table = wrapLuaObject( (ILuaObject)object );
+			LuaValue table = wrapLuaObject( (ILuaObject)object);
 			return table;
 		}
         else

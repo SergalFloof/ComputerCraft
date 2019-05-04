@@ -23,13 +23,13 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAPI implements ILuaAPI
 {
+	public World world;
     private TileCommandComputer m_computer;
 
     public CommandAPI( TileCommandComputer computer )
@@ -93,7 +93,7 @@ public class CommandAPI implements ILuaAPI
                 TileCommandComputer.CommandSender sender = m_computer.getCommandSender();
                 sender.clearOutput();
 
-                int result = commandManager.executeCommand(sender, command);
+                int result = commandManager.executeCommand( (ICommandSender) sender, command );
                 return new Object[]{ (result > 0), sender.copyOutput() };
             }
             catch( Throwable t )
@@ -140,7 +140,7 @@ public class CommandAPI implements ILuaAPI
     }
 
     @Override
-    public Object[] callMethod( ILuaContext context, int method, Object[] arguments ) throws LuaException, InterruptedException
+    public Object[] callMethod( ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException
     {
         switch( method )
         {
@@ -157,7 +157,7 @@ public class CommandAPI implements ILuaAPI
                     @Override
                     public Object[] execute() throws LuaException
                     {
-                        return doCommand( command, null );
+                        return doCommand( command, world );
                     }
                 } );
             }
@@ -174,7 +174,7 @@ public class CommandAPI implements ILuaAPI
                     @Override
                     public Object[] execute() throws LuaException
                     {
-                        return doCommand( command );
+                        return doCommand( command, world );
                     }
                 } );
                 return new Object[] { taskID };
@@ -193,7 +193,7 @@ public class CommandAPI implements ILuaAPI
                         if( server != null )
                         {
                             ICommandManager commandManager = server.getCommandManager();
-                            ICommandSender commmandSender = m_computer.getCommandSender();
+                            ICommandSender commmandSender = (ICommandSender) m_computer.getCommandSender();
                             Map commands = commandManager.getCommands();
                             for( Object entryObject : commands.entrySet() )
                             {
@@ -202,7 +202,7 @@ public class CommandAPI implements ILuaAPI
                                 ICommand command = (ICommand)entry.getValue();
                                 try
                                 {
-                                    if( command.checkPermission(server, commmandSender) )
+                                    if( command.checkPermission(server, commmandSender))
                                     {
                                         result.put( i++, name );
                                     }

@@ -29,14 +29,16 @@ public abstract class BlockPeripheralBase extends BlockDirectional
     protected abstract PeripheralType getPeripheralType( IBlockState state );
     protected abstract TilePeripheralBase createTile( PeripheralType type );
 
+    
     @Override
     public boolean isOpaqueCube(IBlockState state) {
     	return false;
     }
-    
+
     @Override
-    public boolean isFullCube(IBlockState state) {
-    	return false;
+    public final boolean isFullCube(IBlockState state)
+    {
+        return false;
     }
 
     @Override

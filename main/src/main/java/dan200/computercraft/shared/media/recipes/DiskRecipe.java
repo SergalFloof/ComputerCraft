@@ -43,11 +43,11 @@ public class DiskRecipe implements IRecipe
 
                     diskFound = true;
                 }
-                else if( var6.getItem() == Items.DYE )
+                else if( var6.getItem() == Items.dye )
                 {
                 	dyeFound = true;
                 }
-                else if( var6.getItem() == Items.PAPER )
+                else if( var6.getItem() == Items.paper )
                 {
                 	if(paperFound || diskFound)
                 	{
@@ -55,7 +55,7 @@ public class DiskRecipe implements IRecipe
                 	}
                 	paperFound = true;
                 }
-                else if (var6.getItem() == Items.REDSTONE)
+                else if (var6.getItem() == Items.redstone)
                 {
                 	if (redstoneFound || diskFound)
                 	{
@@ -103,7 +103,7 @@ public class DiskRecipe implements IRecipe
                     diskID = var6.getDiskID( var8 );
                     diskLabel = var6.getLabel( var8 );
                 }
-                else if (var8.getItem() == Items.DYE)
+                else if (var8.getItem() == Items.dye)
                 {
                 	dyeFound = true;
                     float[] var14 = Colour.values()[ var8.getItemDamage() & 0xf ].getRGB();
@@ -116,7 +116,7 @@ public class DiskRecipe implements IRecipe
                     var3[2] += var17;                 
                     ++var5;
                 }
-                else if (!(var8.getItem() != Items.PAPER || var8.getItem() != Items.REDSTONE))
+                else if (!(var8.getItem() != Items.paper || var8.getItem() != Items.redstone))
                 {
                 	return null;
                 }

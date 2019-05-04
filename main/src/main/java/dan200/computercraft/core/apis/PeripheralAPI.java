@@ -17,6 +17,7 @@ import dan200.computercraft.core.computer.ComputerThread;
 import dan200.computercraft.core.computer.ITask;
 import dan200.computercraft.core.filesystem.FileSystem;
 import dan200.computercraft.core.filesystem.FileSystemException;
+import net.minecraft.world.World;
 
 import java.util.*;
 
@@ -384,7 +385,7 @@ public class PeripheralAPI implements ILuaAPI, IAPIEnvironment.IPeripheralChange
     }
 
 	@Override
-    public Object[] callMethod( ILuaContext context, int method, Object[] args ) throws LuaException, InterruptedException
+    public Object[] callMethod( ILuaContext context, int method, Object[] args) throws LuaException, InterruptedException
     {
 		switch( method )
 		{

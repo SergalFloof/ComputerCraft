@@ -38,7 +38,7 @@ public class ContainerDiskDrive extends Container
     @Override
     public boolean canInteractWith( EntityPlayer player )
     {
-        return m_diskDrive.isUsableByPlayer(player);
+        return m_diskDrive.isUsableByPlayer( player );
     }
 
     @Override

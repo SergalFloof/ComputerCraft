@@ -14,8 +14,8 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -383,6 +383,6 @@ public abstract class Widget extends Gui
     protected void playClickSound()
     {
         Minecraft mc = Minecraft.getMinecraft();
-        mc.getSoundHandler().playSound( PositionedSoundRecord.getMasterRecord( new ResourceLocation( "gui.button.press" ), 1.0F ) );
+        mc.getSoundHandler().playSound( PositionedSoundRecord.create( new ResourceLocation( "gui.button.press" ), 1.0F ) );
     }
 }

@@ -34,12 +34,7 @@ public class DefaultPeripheralProvider implements IPeripheralProvider
                 return peripheralTile.getPeripheral( side );
             }
 
-            // Handle our computers
-            if( tile instanceof TileComputerBase )
-            {
-                TileComputerBase computerTile = (TileComputerBase)tile;
-                return new ComputerPeripheral( "computer", computerTile.createServerComputer() );
-            }
+            
         }
         return null;
     }

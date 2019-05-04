@@ -157,19 +157,34 @@ public class ItemPocketComputer extends Item implements IComputerItem, IMedia
         }
     }
     
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn) {
-    	if( !world.isRemote )
-        {
-            ServerComputer computer = createServerComputer( world, player.inventory, stack );
-            if( computer != null )
-            {
-                computer.turnOn();
-            }
-            ComputerCraft.openPocketComputerGUI( player );
-        }
-        return stack;
-    }
+//    @Override
+//    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn) {
+//    	if( !world.isRemote )
+//        {
+//            ServerComputer computer = createServerComputer( world, player.inventory, stack );
+//            if( computer != null )
+//            {
+//                computer.turnOn();
+//            }
+//            ComputerCraft.openPocketComputerGUI( player );
+//        }
+//        return stack;
+//    }
+//
+//    @Override
+//    public ItemStack onItemRightClick( ItemStack stack, World world, EntityPlayer player )
+//    {
+//        if( !world.isRemote )
+//        {
+//            ServerComputer computer = createServerComputer( world, player.inventory, stack );
+//            if( computer != null )
+//            {
+//                computer.turnOn();
+//            }
+//            ComputerCraft.openPocketComputerGUI( player );
+//        }
+//        return stack;
+//    }
 
     @Override
     public String getUnlocalizedName( ItemStack stack )
@@ -206,18 +221,18 @@ public class ItemPocketComputer extends Item implements IComputerItem, IMedia
         }
     }
 
-    @Override
-    public void addInformation( ItemStack stack, EntityPlayer player, List list, boolean debug )
-    {
-        if( debug )
-        {
-            int id = getComputerID( stack );
-            if( id >= 0 )
-            {
-                list.add( "(Computer ID: " + id + ")" );
-            }
-        }
-    }
+//    @Override
+//    public void addInformation( ItemStack stack, EntityPlayer player, List list, boolean debug )
+//    {
+//        if( debug )
+//        {
+//            int id = getComputerID( stack );
+//            if( id >= 0 )
+//            {
+//                list.add( "(Computer ID: " + id + ")" );
+//            }
+//        }
+//    }
 
     private ServerComputer createServerComputer( final World world, IInventory inventory, ItemStack stack )
     {

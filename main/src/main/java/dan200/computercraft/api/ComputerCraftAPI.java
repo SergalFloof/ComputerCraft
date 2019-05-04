@@ -10,10 +10,9 @@ import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.filesystem.IWritableMount;
 import dan200.computercraft.api.media.IMediaProvider;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
-import dan200.computercraft.api.permissions.ITurtlePermissionProvider;
 import dan200.computercraft.api.redstone.IBundledRedstoneProvider;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.lang.reflect.Method;
@@ -148,6 +147,8 @@ public final class ComputerCraftAPI
 		}
 	}
 
+ 
+
     /**
      * Registers a bundled redstone handler to provide bundled redstone output for blocks
      * @see dan200.computercraft.api.redstone.IBundledRedstoneProvider
@@ -202,22 +203,7 @@ public final class ComputerCraftAPI
         }
     }
 
-    /**
-     * Registers a permission handler to restrict where turtles can move or build
-     * @see dan200.computercraft.api.permissions.ITurtlePermissionProvider
-     */
-    public static void registerPermissionProvider( ITurtlePermissionProvider handler )
-    {
-        findCC();
-        if( computerCraft_registerPermissionProvider != null )
-        {
-            try {
-                computerCraft_registerPermissionProvider.invoke( null, handler );
-            } catch (Exception e) {
-                // It failed
-            }
-        }
-    }
+    
 
     // The functions below here are private, and are used to interface with the non-API ComputerCraft classes.
 	// Reflection is used here so you can develop your mod without decompiling ComputerCraft and including
@@ -250,9 +236,6 @@ public final class ComputerCraftAPI
                 } );
                 computerCraft_registerMediaProvider = findCCMethod( "registerMediaProvider", new Class[] {
                     IMediaProvider.class
-                } );
-                computerCraft_registerPermissionProvider = findCCMethod( "registerPermissionProvider", new Class[] {
-                    ITurtlePermissionProvider.class
                 } );
 			} catch( Exception e ) {
 				System.out.println( "ComputerCraftAPI: ComputerCraft not found." );

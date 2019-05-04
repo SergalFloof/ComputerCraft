@@ -9,6 +9,7 @@ package dan200.computercraft.shared.pocket.apis;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.core.apis.ILuaAPI;
+import net.minecraft.world.World;
 
 public class PocketAPI implements ILuaAPI
 {
@@ -46,11 +47,10 @@ public class PocketAPI implements ILuaAPI
             // TODO: Add some methods
         };
     }
-
+    
     @Override
-    public Object[] callMethod( ILuaContext context, int method, Object[] arguments ) throws LuaException
-    {
-        // TODO: Add some methods
-        return null;
+    public Object[] callMethod(ILuaContext context, int method, Object[] arguments)
+    		throws LuaException, InterruptedException {
+    	return null;
     }
 }

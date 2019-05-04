@@ -8,6 +8,7 @@ package dan200.computercraft.core.apis;
 
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
+import net.minecraft.world.World;
 
 // Contributed by Nia
 // Based on LuaBit (http://luaforge.net/projects/bit)
@@ -77,7 +78,7 @@ public class BitAPI implements ILuaAPI
     }
     
     @Override
-    public Object[] callMethod( ILuaContext context, int method, Object[] args ) throws LuaException
+    public Object[] callMethod( ILuaContext context, int method, Object[] args) throws LuaException
     {
         Object a = args.length>0?args[0]:null;
         Object b = args.length>1?args[1]:null;

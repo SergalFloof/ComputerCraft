@@ -10,6 +10,7 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.ILuaObject;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.core.terminal.TextBuffer;
+import net.minecraft.world.World;
 
 public class BufferAPI implements ILuaAPI
 {
@@ -35,7 +36,7 @@ public class BufferAPI implements ILuaAPI
         }
 
         @Override
-        public Object[] callMethod( ILuaContext context, int method, Object[] arguments ) throws LuaException, InterruptedException
+        public Object[] callMethod( ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException
         {
             switch( method )
             {
@@ -174,7 +175,7 @@ public class BufferAPI implements ILuaAPI
     }
 
     @Override
-    public Object[] callMethod( ILuaContext context, int method, Object[] arguments ) throws LuaException, InterruptedException
+    public Object[] callMethod( ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException
     {
         switch( method )
         {

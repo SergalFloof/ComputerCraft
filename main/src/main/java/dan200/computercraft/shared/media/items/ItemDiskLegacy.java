@@ -11,7 +11,6 @@ import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.shared.util.Colour;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -35,13 +34,13 @@ public class ItemDiskLegacy extends Item
     }
     
     @Override
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
     	for( int colour=0; colour<16; ++colour )
     	{
             ItemStack stack = createFromIDAndColour( -1, null, Colour.values()[ colour ].getHex() );
             if( stack.getItem() == this )
             {
-        		items.add( stack );
+        		list.add( stack );
             }
     	}
     }
@@ -77,19 +76,7 @@ public class ItemDiskLegacy extends Item
 			stack.setItemDamage( 0 );
 		}
 	}
-	
-	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<String> list, ITooltipFlag flagIn) {
-		if( debug )
-        {
-            int id = getDiskID( stack );
-            if( id >= 0 )
-            {
-                list.add( "(Disk ID: " + id + ")" );
-            }
-        }
-	}
-//
+
 //    @Override
 //    public void addInformation( ItemStack stack, EntityPlayer player, List list, boolean debug )
 //    {
@@ -153,11 +140,11 @@ public class ItemDiskLegacy extends Item
 		return ComputerCraftAPI.createSaveDirMount( world, "computer/disk/" + diskID, ComputerCraft.floppySpaceLimit );
     }
 
-	@Override
-    public int getColorFromItemStack( ItemStack stack, int layer )
-    {
-        return layer == 0 ? 0xffffff : getColor(stack);
-    }
+//	@Override
+//    public int getColorFromItemStack( ItemStack stack, int layer )
+//    {
+//        return layer == 0 ? 0xffffff : getColor(stack);
+//    }
 
 	public int getColor( ItemStack stack )
 	{

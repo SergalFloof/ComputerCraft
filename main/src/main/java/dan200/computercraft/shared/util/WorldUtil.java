@@ -7,7 +7,6 @@
 package dan200.computercraft.shared.util;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -28,20 +27,20 @@ public class WorldUtil
         return pos.getY() >= 0 && pos.getY() < world.getHeight();
     }
 
-    public static boolean isLiquidBlock( IBlockState state, World world, BlockPos pos )
+    public static boolean isLiquidBlock( World world, BlockPos pos )
     {
         if( isBlockInWorld( world, pos ) )
         {
             Block block = world.getBlockState( pos ).getBlock();
             if( block != null )
             {
-                return block.getMaterial(state).isLiquid();
+                return block.getMaterial(world.getBlockState(pos)).isLiquid();
             }
         }
         return false;
     }
 
-    public static BlockPos moves( BlockPos pos, EnumFacing dir )
+    public static BlockPos moveCoords( BlockPos pos, EnumFacing dir )
     {
         return pos.offset( dir );
     }
@@ -92,7 +91,7 @@ public class WorldUtil
                 }
             }
 
-            if( littleBox.contains(vecStart) )
+            if( littleBox.contains(vecStart))
             {
                 closest = entity;
                 closestDist = 0.0f;
@@ -109,7 +108,7 @@ public class WorldUtil
                     closestDist = dist;
                 }
             }
-            else if( littleBox.intersect( bigBox ) != null )
+            else if( littleBox.intersects( bigBox ) )
             {
                 if( closest == null )
                 {

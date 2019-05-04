@@ -25,7 +25,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 
 public abstract class TileComputerBase extends TileGeneric
     implements IComputerTile, IDirectionalTile, ITickable
@@ -74,7 +73,7 @@ public abstract class TileComputerBase extends TileGeneric
         unload();
         for( EnumFacing dir : EnumFacing.VALUES )
         {
-            RedstoneUtil.propogateRedstoneOutput(world.getBlockState(getPos()), world, getPos(), dir);
+            RedstoneUtil.propogateRedstoneOutput( world, getPos(), dir );
         }
     }
 
@@ -114,7 +113,7 @@ public abstract class TileComputerBase extends TileGeneric
     @Override
     public boolean onActivate( EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ )
     {
-        ItemStack currentItem = player.getHeldItem(EnumHand.MAIN_HAND);
+        ItemStack currentItem = player.getHeldItemMainhand();
         if( currentItem != null && currentItem.getItem() == Items.NAME_TAG && canNameWithTag( player ) )
         {
             // Label to rename computer
@@ -128,7 +127,7 @@ public abstract class TileComputerBase extends TileGeneric
                 {
                     setLabel( null );
                 }
-                currentItem.stackSize--;
+                currentItem.shrink(-1);
             }
             return true;
         }
@@ -233,7 +232,7 @@ public abstract class TileComputerBase extends TileGeneric
     }
 
     @Override
-    public void writeToNBT( NBTTagCompound nbttagcompound )
+    public NBTTagCompound writeToNBT( NBTTagCompound nbttagcompound )
     {
         super.writeToNBT( nbttagcompound );
 
@@ -247,6 +246,7 @@ public abstract class TileComputerBase extends TileGeneric
             nbttagcompound.setString( "label", m_label );
         }
         nbttagcompound.setBoolean( "on", m_on );
+		return nbttagcompound;
     }
 
     @Override
@@ -325,7 +325,7 @@ public abstract class TileComputerBase extends TileGeneric
                 int localDir = remapLocalSide( DirectionUtil.toLocal( this, dir ) );
                 if( !isRedstoneBlockedOnSide( localDir ) )
                 {
-                    computer.setRedstoneInput( localDir, RedstoneUtil.getRedstoneOutput( null, world, offset, offsetSide ) );
+                    computer.setRedstoneInput( localDir, RedstoneUtil.getRedstoneOutput( world, offset, offsetSide ) );
                     computer.setBundledRedstoneInput( localDir, RedstoneUtil.getBundledRedstoneOutput( world, offset, offsetSide ) );
                 }
                 if( !isPeripheralBlockedOnSide( localDir ) )
@@ -342,7 +342,7 @@ public abstract class TileComputerBase extends TileGeneric
         updateBlock();
         for( EnumFacing dir : EnumFacing.VALUES )
         {
-            RedstoneUtil.propogateRedstoneOutput( world.getBlockState(getPos()), world, getPos(), dir );
+            RedstoneUtil.propogateRedstoneOutput( world, getPos(), dir );
         }
     }
 

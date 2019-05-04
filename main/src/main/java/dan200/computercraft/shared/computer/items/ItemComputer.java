@@ -72,9 +72,9 @@ public class ItemComputer extends ItemComputerBase
     }
     
     @Override
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-    	items.add( ComputerItemFactory.create( -1, null, ComputerFamily.Normal ) );
-        items.add( ComputerItemFactory.create( -1, null, ComputerFamily.Advanced ) );;
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+    	list.add( ComputerItemFactory.create( -1, null, ComputerFamily.Normal ) );
+        list.add( ComputerItemFactory.create( -1, null, ComputerFamily.Advanced ) );
     }
 
     @Override

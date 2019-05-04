@@ -10,6 +10,7 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.core.computer.IComputerEnvironment;
 import dan200.computercraft.core.terminal.Terminal;
+import net.minecraft.world.World;
 
 public class TermAPI implements ILuaAPI
 {
@@ -102,7 +103,7 @@ public class TermAPI implements ILuaAPI
     }
 
     @Override
-    public Object[] callMethod( ILuaContext context, int method, Object[] args ) throws LuaException
+    public Object[] callMethod( ILuaContext context, int method, Object[] args) throws LuaException
     {
     	switch( method )
     	{

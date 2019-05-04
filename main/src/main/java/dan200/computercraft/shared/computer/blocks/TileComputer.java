@@ -42,7 +42,7 @@ public class TileComputer extends TileComputerBase
             ComputerCraft.terminalWidth_computer,
             ComputerCraft.terminalHeight_computer
         );
-        computer.setPosition( getPos() );
+        computer.setPosition(pos);
         return computer;
     }
 

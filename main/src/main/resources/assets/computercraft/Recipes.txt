@@ -1,0 +1,92 @@
+ // Recipes
+		// Computer
+		ItemStack computer = ComputerItemFactory.create( -1, null, ComputerFamily.Normal );
+		GameRegistry.addRecipe( computer,
+			"XXX", "XYX", "XZX",
+			'X', Blocks.stone,
+			'Y', Items.redstone,
+			'Z', Blocks.glass_pane
+		);
+
+        // Advanced Computer
+		ItemStack advancedComputer = ComputerItemFactory.create( -1, null, ComputerFamily.Advanced );
+		GameRegistry.addRecipe( advancedComputer,
+			"XXX", "XYX", "XZX",
+			'X', Items.gold_ingot,
+			'Y', Items.redstone,
+			'Z', Blocks.glass_pane
+		);
+
+        // Disk Drive
+		ItemStack diskDrive = PeripheralItemFactory.create( PeripheralType.DiskDrive, null, 1 );
+		GameRegistry.addRecipe( diskDrive,
+			"XXX", "XYX", "XYX",
+			'X', Blocks.stone,
+			'Y', Items.redstone
+		);
+		
+		// Wireless Modem
+		ItemStack wirelessModem = PeripheralItemFactory.create( PeripheralType.WirelessModem, null, 1 );
+		GameRegistry.addRecipe( wirelessModem,
+			"XXX", "XYX", "XXX",
+			'X', Blocks.stone,
+			'Y', Items.ender_pearl
+		);
+				
+		// Monitor
+		ItemStack monitor = PeripheralItemFactory.create( PeripheralType.Monitor, null, 1 );
+		GameRegistry.addRecipe( monitor,
+			"XXX", "XYX", "XXX",
+			'X', Blocks.stone,
+			'Y', Blocks.glass_pane
+		);
+				
+		// PrinterEmpty
+		ItemStack printer = PeripheralItemFactory.create( PeripheralType.Printer, null, 1 );
+		GameRegistry.addRecipe( printer,
+			"XXX", "XYX", "XZX",
+			'X', Blocks.stone,
+			'Y', Items.redstone,
+			'Z', new ItemStack( Items.dye, 1, 0 ) // 0 = Black
+		);
+
+		// Advanced Monitor
+		ItemStack advancedMonitors = PeripheralItemFactory.create( PeripheralType.AdvancedMonitor, null, 4 );
+		GameRegistry.addRecipe( advancedMonitors,
+			"XXX", "XYX", "XXX",
+			'X', Items.gold_ingot,
+			'Y', Blocks.glass_pane
+		);
+
+		// Networking Cable
+		ItemStack cable = PeripheralItemFactory.create( PeripheralType.Cable, null, 6 );
+		GameRegistry.addRecipe( cable,
+			" X ", "XYX", " X ",
+			'X', Blocks.stone,
+			'Y', Items.redstone
+		);
+		
+		// Wired Modem
+		ItemStack wiredModem = PeripheralItemFactory.create( PeripheralType.WiredModem, null, 1 );
+		GameRegistry.addRecipe( wiredModem,
+			"XXX", "XYX", "XXX",
+			'X', Blocks.stone,
+			'Y', Items.redstone
+		);
+
+        // Computer
+        ItemStack commandComputer = ComputerItemFactory.create( -1, null, ComputerFamily.Command );
+        GameRegistry.addRecipe( commandComputer,
+            "XXX", "XYX", "XZX",
+            'X', Blocks.stone,
+            'Y', Blocks.command_block,
+            'Z', Blocks.glass_pane
+        );
+
+        // Advanced Modem
+        ItemStack advancedModem = PeripheralItemFactory.create( PeripheralType.AdvancedModem, null, 1 );
+        GameRegistry.addRecipe( advancedModem,
+            "XXX", "XYX", "XXX",
+            'X', Items.gold_ingot,
+            'Y', Items.ender_eye
+        );

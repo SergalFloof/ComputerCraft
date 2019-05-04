@@ -99,7 +99,7 @@ public class TileDiskDrive extends TilePeripheralBase
                     if( ComputerCraft.getMedia( disk ) != null )
                     {
                         setInventorySlotContents( 0, disk );
-                        player.resetActiveHand();
+                        player.destroyCurrentEquippedItem();
                         return true;
                     }
                 }
@@ -147,7 +147,7 @@ public class TileDiskDrive extends TilePeripheralBase
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbttagcompound)
+    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
 		if( m_diskStack != null )
@@ -156,6 +156,7 @@ public class TileDiskDrive extends TilePeripheralBase
 			m_diskStack.writeToNBT( item );
             nbttagcompound.setTag( "item", item );
         }
+		return nbttagcompound;
     }
     
     @Override
@@ -683,4 +684,10 @@ public class TileDiskDrive extends TilePeripheralBase
     {
         ComputerCraft.playRecord( null, null, world, getPos() );
     }
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

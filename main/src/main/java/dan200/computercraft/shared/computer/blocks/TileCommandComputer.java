@@ -12,6 +12,7 @@ import dan200.computercraft.shared.computer.core.IComputer;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -22,7 +23,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,61 +70,61 @@ public class TileCommandComputer extends TileComputer
             return new TextComponentString( "@" );
         }
 
-        @Override
-        public void addChatMessage( ITextComponent chatComponent )
-        {
-            m_outputTable.put( m_outputTable.size() + 1, chatComponent.getUnformattedText() );
-        }
-
-        @Override
-        public boolean canCommandSenderUseCommand( int level, String command )
-        {
-            return level <= 2;
-        }
-
-        @Override
-        public BlockPos getPosition()
-        {
-            return TileCommandComputer.this.getPos();
-        }
-
-        @Override
-        public Vec3d getPositionVector()
-        {
-            BlockPos pos = getPosition();
-            return new Vec3d( pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 );
-        }
-
-        @Override
-        public World getEntityWorld()
-        {
-            return TileCommandComputer.this.world;
-        }
-
-        @Override
-        public Entity getCommandSenderEntity()
-        {
-            return null;
-        }
+//        @Override
+//        public void addChatMessage( ITextComponent chatComponent )
+//        {
+//            m_outputTable.put( m_outputTable.size() + 1, chatComponent.getUnformattedText() );
+//        }
+//
+//        @Override
+//        public boolean canCommandSenderUseCommand( int level, String command )
+//        {
+//            return level <= 2;
+//        }
+//
+//        @Override
+//        public BlockPos getPosition()
+//        {
+//            return TileCommandComputer.this.getPos();
+//        }
+//
+//        @Override
+//        public Vec3d getPositionVector()
+//        {
+//            BlockPos pos = getPosition();
+//            return new Vec3d( pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 );
+//        }
+//
+//        @Override
+//        public World getEntityWorld()
+//        {
+//            return TileCommandComputer.this.world;
+//        }
+//
+//        @Override
+//        public Entity getCommandSenderEntity()
+//        {
+//            return null;
+//        }
 
         // CommandBlockLogic members intentionally left empty
         // The only reason we extend it at all is so that "gameRule commandBlockOutput" applies to us
 
-        @Override
-        public void updateCommand()
-        {
-        }
-
-        @Override
-        public int getCommandBlockType()
-        {
-            return 0;
-        }
-
-        @Override
-        public void fillInInfo( ByteBuf buf )
-        {
-        }
+//        @Override
+//        public void updateCommand()
+//        {
+//        }
+//
+//        @Override
+//        public int getCommandBlockType()
+//        {
+//            return 0;
+//        }
+//
+//        @Override
+//        public void fillInInfo( ByteBuf b )
+//        {
+//        }
     }
 
     private CommandSender m_commandSender;
@@ -164,43 +164,23 @@ public class TileCommandComputer extends TileComputer
         computer.addAPI( new CommandAPI( this ) );
         return computer;
     }
-    
+
     @Override
-    public boolean isUsable(EntityPlayer player, boolean ignoreRange) {
-    	World world;
-    	MinecraftServer server = world.getMinecraftServer();
+    public boolean isUsable( EntityPlayer player, boolean ignoreRange )
+    {
+        MinecraftServer server = world.getMinecraftServer();
         if( server == null || !server.isCommandBlockEnabled() )
         {
             player.sendMessage( new TextComponentTranslation( "advMode.notEnabled" ) );
             return false;
         }
-        else if( ComputerCraft.canPlayerUseCommands( player, (WorldServer) world ) && player.capabilities.isCreativeMode )
+        else if( ComputerCraft.canPlayerUseCommands( player, world ) && player.capabilities.isCreativeMode )
         {
             return super.isUsable( player, ignoreRange );
         }
         else
         {
-            player.addChatMessage( new ChatComponentTranslation( "advMode.notAllowed" ) );
-            return false;
-        }
-    }
-
-    @Override
-    public boolean isUsable( EntityPlayer player, boolean ignoreRange, WorldServer world )
-    {
-        MinecraftServer server = world.getMinecraftServer();
-        if( server == null || !server.isCommandBlockEnabled() )
-        {
-            player.addChatMessage( new ChatComponentTranslation( "advMode.notEnabled" ) );
-            return false;
-        }
-        else if( ComputerCraft.canPlayerUseCommands( player ) && player.capabilities.isCreativeMode )
-        {
-            return super.isUsable( player, ignoreRange );
-        }
-        else
-        {
-            player.addChatMessage( new ChatComponentTranslation( "advMode.notAllowed" ) );
+            player.sendMessage( new TextComponentTranslation( "advMode.notAllowed" ) );
             return false;
         }
     }

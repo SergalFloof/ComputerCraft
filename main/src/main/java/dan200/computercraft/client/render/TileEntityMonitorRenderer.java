@@ -34,13 +34,14 @@ public class TileEntityMonitorRenderer extends TileEntitySpecialRenderer<TileMon
     {
     }
 
-    public void renderTileEntityAt( TileMonitor tileEntity, double posX, double posY, double posZ, float f, int i )
-    {
-        if( tileEntity != null )
-        {
-            renderMonitorAt( tileEntity, posX, posY, posZ, f, i );
-        }
-    }
+//    @Override
+//    public void renderTileEntityAt( TileMonitor tileEntity, double posX, double posY, double posZ, float f, int i )
+//    {
+//        if( tileEntity != null )
+//        {
+//            renderMonitorAt( tileEntity, posX, posY, posZ, f, i );
+//        }
+//    }
 
     private void renderMonitorAt( TileMonitor monitor, double posX, double posY, double posZ, float f, int i )
     {

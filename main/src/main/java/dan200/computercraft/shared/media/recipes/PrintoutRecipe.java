@@ -12,6 +12,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class PrintoutRecipe implements IRecipe
@@ -20,11 +21,11 @@ public class PrintoutRecipe implements IRecipe
     {
     }
 
-	@Override
-	public int getRecipeSize()
-	{
-		return 3;
-	}
+//	@Override
+//	public int getRecipeSize()
+//	{
+//		return 3;
+//	}
 	
 	@Override
     public ItemStack getRecipeOutput()
@@ -157,4 +158,28 @@ public class PrintoutRecipe implements IRecipe
         }
         return results;
     }
+
+	@Override
+	public IRecipe setRegistryName(ResourceLocation name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResourceLocation getRegistryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<IRecipe> getRegistryType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canFit(int width, int height) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

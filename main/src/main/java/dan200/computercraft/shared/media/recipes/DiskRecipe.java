@@ -12,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class DiskRecipe implements IRecipe
@@ -141,11 +142,11 @@ public class DiskRecipe implements IRecipe
         return ItemDiskLegacy.createFromIDAndColour( diskID, diskLabel, var17 );
     }
 
-    @Override
-    public int getRecipeSize()
-    {
-        return 2;
-    }
+//    @Override
+//    public int getRecipeSize()
+//    {
+//        return 2;
+//    }
 
     @Override
     public ItemStack getRecipeOutput()
@@ -153,15 +154,39 @@ public class DiskRecipe implements IRecipe
         return ItemDiskLegacy.createFromIDAndColour( -1, null, Colour.Blue.getHex() );
     }
 
-    @Override
-    public ItemStack[] getRemainingItems( InventoryCrafting inventoryCrafting )
-    {
-        ItemStack[] results = new ItemStack[ inventoryCrafting.getSizeInventory() ];
-        for (int i = 0; i < results.length; ++i)
-        {
-            ItemStack stack = inventoryCrafting.getStackInSlot(i);
-            results[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(stack);
-        }
-        return results;
-    }
+@Override
+public IRecipe setRegistryName(ResourceLocation name) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ResourceLocation getRegistryName() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Class<IRecipe> getRegistryType() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public boolean canFit(int width, int height) {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+//    @Override
+//    public ItemStack[] getRemainingItems( InventoryCrafting inventoryCrafting )
+//    {
+//        ItemStack[] results = new ItemStack[ inventoryCrafting.getSizeInventory() ];
+//        for (int i = 0; i < results.length; ++i)
+//        {
+//            ItemStack stack = inventoryCrafting.getStackInSlot(i);
+//            results[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(stack);
+//        }
+//        return results;
+//    }
 }

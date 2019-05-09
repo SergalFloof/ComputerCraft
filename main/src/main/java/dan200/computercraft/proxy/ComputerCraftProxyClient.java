@@ -4,7 +4,7 @@
  * Send enquiries to dratcliffe@gmail.com
  */
 
-package dan200.computercraft.client.proxy;
+package dan200.computercraft.proxy;
 
 import dan200.computercraft.ComputerCraft;
 import dan200.computercraft.client.gui.*;
@@ -20,7 +20,6 @@ import dan200.computercraft.shared.peripheral.diskdrive.TileDiskDrive;
 import dan200.computercraft.shared.peripheral.monitor.TileMonitor;
 import dan200.computercraft.shared.peripheral.printer.TilePrinter;
 import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
-import dan200.computercraft.shared.proxy.ComputerCraftProxyCommon;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -32,11 +31,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IThreadListener;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -54,6 +56,15 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
 	private long m_tick;
     private long m_renderFrame;
 	private FixedWidthFontRenderer m_fixedWidthFontRenderer;
+	@Override
+	public void registerItemRenderer(Item item, int meta, String id) {
+		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
+	}
+	
+	@Override
+	public void registerVariantRenderer(Item item, int meta, String filename, String id) {
+		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation("computercraft:", filename), id));
+	}
 
 	public ComputerCraftProxyClient()
 	{
@@ -184,7 +195,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         name = "computercraft:" + name;
         ModelResourceLocation res = new ModelResourceLocation( name, "inventory" );
-        ModelBakery.registerItemVariants(item, name);
+        ModelBakery.registerItemVariants(item, new ResourceLocation(name));
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, damage, res );
     }
 
@@ -197,7 +208,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         name = "computercraft:" + name;
         final ModelResourceLocation res = new ModelResourceLocation( name, "inventory" );
-        ModelBakery.registerItemVariants( item, name );
+        ModelBakery.registerItemVariants( item, new ResourceLocation(name) );
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, new ItemMeshDefinition()
         {
             @Override
@@ -217,7 +228,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
     {
         for( int i=0; i<names.length; ++i )
         {
-            ModelBakery.registerItemVariants( item, "computercraft:" + names[i] );
+            ModelBakery.registerItemVariants( item, new ResourceLocation("computercraft:" + names[i]) );
         }
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register( item, definition );
     }
@@ -268,7 +279,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
 	public void playRecord( String record, String recordInfo, World world, BlockPos pos )
 	{
 		Minecraft mc = FMLClientHandler.instance().getClient();
-		world.playRecord( pos, record );
+		world.playRecord( pos, new SoundEvent(new ResourceLocation(record)) );
 		if( record != null )
 		{
 			mc.ingameGUI.setRecordPlayingMessage( recordInfo );
@@ -419,4 +430,5 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
             }
         }
 	}
+	
 }

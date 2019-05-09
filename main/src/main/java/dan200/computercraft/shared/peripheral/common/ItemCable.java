@@ -69,6 +69,8 @@ public class ItemCable extends ItemPeripheralBase
     
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    	ItemStack stack;
+    	
     	if( !canPlaceBlockOnSide( world, pos, side, player, stack ) )
     	{
     		return false;
@@ -83,11 +85,11 @@ public class ItemCable extends ItemPeripheralBase
     		PeripheralType existingType = ComputerCraft.Blocks.cable.getPeripheralType( world, pos );
     		if( existingType == PeripheralType.WiredModem && type == PeripheralType.Cable )
     		{
-				if( stack.stackSize > 0 )
+				if( stack.getCount() > 0 )
 				{
 					world.setBlockState( pos, existingState.withProperty( BlockCable.Properties.CABLE, true ), 3 );
-	                world.playSoundEffect( pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ComputerCraft.Blocks.cable.stepSound.getBreakSound(), (ComputerCraft.Blocks.cable.stepSound.getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.stepSound.getFrequency() * 0.8F);
-	    			stack.stackSize--;
+	                world.playSound(player, pos, ComputerCraft.Blocks.cable.getSoundType().getBreakSound(), (ComputerCraft.Blocks.cable.getSoundType().getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.getSoundType().getPitch() * 0.8F);
+	    			stack.shrink(-1);;
 	    			
 					TileEntity tile = world.getTileEntity( pos );
 					if( tile != null && tile instanceof TileCable )
@@ -113,11 +115,10 @@ public class ItemCable extends ItemPeripheralBase
                 PeripheralType offsetExistingType = ComputerCraft.Blocks.cable.getPeripheralType( world, offset );
 				if( offsetExistingType == PeripheralType.Cable && type == PeripheralType.WiredModem )
 				{
-					if( stack.stackSize > 0 )
+					if( stack.getCount() > 0 )
 					{
                         world.setBlockState( offset, offsetExistingState.withProperty( BlockCable.Properties.MODEM, BlockCableModemVariant.fromFacing( side.getOpposite() ) ), 3 );
-						world.playSoundEffect( offset.getX() + 0.5, offset.getY() + 0.5, offset.getZ() + 0.5, ComputerCraft.Blocks.cable.stepSound.getBreakSound(), (ComputerCraft.Blocks.cable.stepSound.getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.stepSound.getFrequency() * 0.8F);
-						stack.stackSize--;
+                        world.playSound(player, pos, ComputerCraft.Blocks.cable.getSoundType().getBreakSound(), (ComputerCraft.Blocks.cable.getSoundType().getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.getSoundType().getPitch() * 0.8F);						stack.shrink(-1);;
 
 						TileEntity tile = world.getTileEntity( offset );
 						if( tile != null && tile instanceof TileCable )
@@ -133,11 +134,11 @@ public class ItemCable extends ItemPeripheralBase
                 // Try to add a cable to a modem
                 if( offsetExistingType == PeripheralType.WiredModem && type == PeripheralType.Cable )
 				{
-					if( stack.stackSize > 0 )
+					if( stack.getCount() > 0 )
 					{
                         world.setBlockState( offset, offsetExistingState.withProperty( BlockCable.Properties.CABLE, true ), 3 );
 						world.playSoundEffect( offset.getX() + 0.5, offset.getY() + 0.5, offset.getZ() + 0.5, ComputerCraft.Blocks.cable.stepSound.getBreakSound(), (ComputerCraft.Blocks.cable.stepSound.getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.stepSound.getFrequency() * 0.8F);
-						stack.stackSize--;
+						stack.shrink(1);;
 
 						TileEntity tile = world.getTileEntity( offset );
 						if( tile != null && tile instanceof TileCable )
@@ -152,8 +153,8 @@ public class ItemCable extends ItemPeripheralBase
 			}
 		}
     	
-    	return super.onItemUse( stack, player, world, pos, side, fx, fy, fz );
-//    }
+    	return super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+    }
 //
 //	@Override
 //    public boolean onItemUse( ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float fx, float fy, float fz )

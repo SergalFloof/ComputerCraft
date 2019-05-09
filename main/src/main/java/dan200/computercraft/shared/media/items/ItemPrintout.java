@@ -6,7 +6,6 @@
 
 package dan200.computercraft.shared.media.items;
 
-import dan200.computercraft.ComputerCraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -18,6 +17,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 import java.util.List;
+
+import dan200.computercraft.ComputerCraft;
 
 public class ItemPrintout extends Item
 {	
@@ -79,14 +80,14 @@ public class ItemPrintout extends Item
 		}
     }
     
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn) {
-    	if( !world.isRemote )
-    	{
-    		ComputerCraft.openPrintoutGUI( player );
-    	}
-    	return stack;
-    }
+//    @Override
+//    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn) {
+//    	if( !world.isRemote )
+//    	{
+//    		ComputerCraft.openPrintoutGUI( player );
+//    	}
+//    	return stack;
+//    }
     
     private static ItemStack createFromTitleAndText( Type type, String title, String[] text, String[] colours )
     {

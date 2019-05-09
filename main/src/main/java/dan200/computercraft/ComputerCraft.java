@@ -16,6 +16,7 @@ import dan200.computercraft.api.redstone.IBundledRedstoneProvider;
 import dan200.computercraft.core.filesystem.ComboMount;
 import dan200.computercraft.core.filesystem.FileMount;
 import dan200.computercraft.core.filesystem.JarMount;
+import dan200.computercraft.proxy.IComputerCraftProxy;
 import dan200.computercraft.shared.common.DefaultBundledRedstoneProvider;
 import dan200.computercraft.shared.computer.blocks.BlockCommandComputer;
 import dan200.computercraft.shared.computer.blocks.BlockComputer;
@@ -35,19 +36,16 @@ import dan200.computercraft.shared.peripheral.modem.BlockAdvancedModem;
 import dan200.computercraft.shared.peripheral.modem.WirelessNetwork;
 import dan200.computercraft.shared.peripheral.printer.TilePrinter;
 import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
-import dan200.computercraft.shared.proxy.ICCTurtleProxy;
-import dan200.computercraft.shared.proxy.IComputerCraftProxy;
-import dan200.computercraft.shared.turtle.blocks.BlockTurtle;
-import dan200.computercraft.shared.turtle.blocks.TileTurtle;
-import dan200.computercraft.shared.turtle.upgrades.*;
 import dan200.computercraft.shared.util.CreativeTabMain;
 import dan200.computercraft.shared.util.IDAssigner;
 import dan200.computercraft.shared.util.IEntityDropConsumer;
 import dan200.computercraft.shared.util.WorldUtil;
 import io.netty.buffer.Unpooled;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
@@ -129,7 +127,7 @@ public class ComputerCraft
 		public static ItemDiskLegacy disk;
 		public static ItemDiskExpanded diskExpanded;
 		public static ItemPrintout printout;
-		public static ItemStack treasureDisk;
+		public static Item treasureDisk;
         public static ItemPocketComputer pocketComputer;
 	}
 
@@ -235,11 +233,11 @@ public class ComputerCraft
 		proxy.init();
 	}
 
-    @Mod.EventHandler
-    public void onServerStarting( FMLServerStartingEvent event )
-    {
-        ItemTreasureDisk.registerDungeonLoot();
-    }
+//    @Mod.EventHandler
+//    public void onServerStarting( FMLServerStartingEvent event )
+//    {
+//        ItemTreasureDisk.registerDungeonLoot();
+//    }
 
     @Mod.EventHandler
     public void onServerStart( FMLServerStartedEvent event )
@@ -376,17 +374,17 @@ public class ComputerCraft
         MinecraftServer server = world.getMinecraftServer();
         if( server != null )
         {
-            return server.getConfigurationManager().canSendCommands( player.getGameProfile() );
+            return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().canSendCommands( player.getGameProfile() );
         }
         return false;
     }
 
     public static boolean isPlayerOpped( EntityPlayer player, World world )
     {
-        MinecraftServer server = world.getMinecraftServer();
+    	MinecraftServer server = world.getMinecraftServer();
         if( server != null )
         {
-            return server.getConfigurationManager().getOppedPlayers().getEntry( player.getGameProfile() ) != null;
+            return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getOppedPlayers().getEntry( player.getGameProfile() ) != null;
         }
         return false;
     }

@@ -7,6 +7,7 @@
 package dan200.computercraft.shared.computer.core;
 
 import com.google.common.base.Objects;
+
 import dan200.computercraft.ComputerCraft;
 import dan200.computercraft.shared.common.ClientTerminal;
 import dan200.computercraft.shared.network.ComputerCraftPacket;

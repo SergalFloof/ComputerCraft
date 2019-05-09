@@ -6,14 +6,14 @@
 
 package dan200.computercraft.core.apis;
 
-import dan200.computercraft.ComputerCraft;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import dan200.computercraft.ComputerCraft;
 
 class HTTPRequestException extends Exception {
 	public HTTPRequestException( String s ) {

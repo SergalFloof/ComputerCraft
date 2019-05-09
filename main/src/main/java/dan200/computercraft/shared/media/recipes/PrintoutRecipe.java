@@ -147,17 +147,17 @@ public class PrintoutRecipe implements IRecipe
 		return null;
     }
 
-    @Override
-    public ItemStack[] getRemainingItems( InventoryCrafting inventoryCrafting )
-    {
-        ItemStack[] results = new ItemStack[ inventoryCrafting.getSizeInventory() ];
-        for (int i = 0; i < results.length; ++i)
-        {
-            ItemStack stack = inventoryCrafting.getStackInSlot(i);
-            results[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(stack);
-        }
-        return results;
-    }
+//    @Override
+//    public ItemStack[] getRemainingItems( InventoryCrafting inventoryCrafting )
+//    {
+//        ItemStack[] results = new ItemStack[ inventoryCrafting.getSizeInventory() ];
+//        for (int i = 0; i < results.length; ++i)
+//        {
+//            ItemStack stack = inventoryCrafting.getStackInSlot(i);
+//            results[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(stack);
+//        }
+//        return results;
+//    }
 
 	@Override
 	public IRecipe setRegistryName(ResourceLocation name) {

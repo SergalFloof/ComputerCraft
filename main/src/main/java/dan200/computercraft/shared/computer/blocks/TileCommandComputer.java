@@ -6,30 +6,25 @@
 
 package dan200.computercraft.shared.computer.blocks;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import dan200.computercraft.ComputerCraft;
 import dan200.computercraft.shared.computer.apis.CommandAPI;
 import dan200.computercraft.shared.computer.core.IComputer;
 import dan200.computercraft.shared.computer.core.ServerComputer;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.command.server.CommandBlockLogic;
-import net.minecraft.entity.Entity;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.World;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TileCommandComputer extends TileComputer
 {
-    public class CommandSender extends CommandBlockLogic
+    public class CommandSender extends CommandBase
     {
         private Map<Integer, String> m_outputTable;
 
@@ -55,31 +50,42 @@ public class TileCommandComputer extends TileComputer
 
         // ICommandSender
 
-        @Override
-        public ITextComponent getDisplayName()
-        {
-            IComputer computer = TileCommandComputer.this.getComputer();
+
+		@Override
+		public String getName() {
+			IComputer computer = TileCommandComputer.this.getComputer();
             if( computer != null )
             {
                 String label = computer.getLabel();
                 if( label != null )
                 {
-                    return new TextComponentString( computer.getLabel() );
+                    return new String( computer.getLabel() );
                 }
             }
-            return new TextComponentString( "@" );
-        }
+            return new String( "@" );
+		}
+
+		@Override
+		public String getUsage(ICommandSender sender) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+			return true;
+		}
 
 //        @Override
 //        public void addChatMessage( ITextComponent chatComponent )
 //        {
 //            m_outputTable.put( m_outputTable.size() + 1, chatComponent.getUnformattedText() );
-//        }
-//
-//        @Override
-//        public boolean canCommandSenderUseCommand( int level, String command )
-//        {
-//            return level <= 2;
 //        }
 //
 //        @Override

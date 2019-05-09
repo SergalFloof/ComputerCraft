@@ -380,9 +380,9 @@ public abstract class Widget extends Gui
         return mc.fontRenderer.getStringWidth( s );
     }
 
-    protected void playClickSound()
-    {
-        Minecraft mc = Minecraft.getMinecraft();
-        mc.getSoundHandler().playSound( PositionedSoundRecord.create( new ResourceLocation( "gui.button.press" ), 1.0F ) );
-    }
+//    protected void playClickSound()
+//    {
+//        Minecraft mc = Minecraft.getMinecraft();
+//        mc.getSoundHandler().playSound( PositionedSoundRecord.getMasterRecord( new ResourceLocation( "gui.button.press" ), 1.0F ) );
+//    }
 }

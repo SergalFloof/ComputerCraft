@@ -21,7 +21,7 @@ public class CreativeTabMain extends CreativeTabs
     @Override
     public ItemStack getTabIconItem()
     {
-        return Item.getItemFromBlock(ComputerCraft.Blocks.computer );
+        return new ItemStack(Item.getItemFromBlock(ComputerCraft.Blocks.computer ));
     }
     
     @Override

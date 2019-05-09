@@ -215,7 +215,7 @@ public abstract class BlockGeneric extends Block implements
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
     	setBlockBoundsBasedOnState( worldIn, pos );
-        return super.getCollisionBoundingBox( worldIn, pos, blockState );
+        return super.getCollisionBoundingBox( blockState, worldIn, pos );
     }
     
     @Override

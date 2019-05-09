@@ -7,6 +7,7 @@
 package dan200.computercraft.shared.peripheral.modem;
 
 import com.google.common.base.Objects;
+
 import dan200.computercraft.ComputerCraft;
 import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.filesystem.IWritableMount;

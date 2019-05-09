@@ -65,7 +65,7 @@ public abstract class TileGeneric extends TileEntity
 
     public final void updateBlock()
     {
-        world.markBlockForUpdate( getPos() );
+        world.notifyBlockUpdate( getPos(), getBlockState(), getBlockState(), 0 );
         world.markChunkDirty( getPos(), this );
     }
 
@@ -183,15 +183,23 @@ public abstract class TileGeneric extends TileEntity
     {
         return newState.getBlock() != oldState.getBlock();
     }
-
+    
     @Override
-    public final Packet getDescriptionPacket()
-    {
-        // Communicate properties
+    public SPacketUpdateTileEntity getUpdatePacket() {
+    	// Communicate properties
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         writeDescription( nbttagcompound );
         return new SPacketUpdateTileEntity( getPos(), 0, nbttagcompound );
     }
+//    
+//    @Override
+//    public final Packet getDescriptionPacket()
+//    {
+//        // Communicate properties
+//        NBTTagCompound nbttagcompound = new NBTTagCompound();
+//        writeDescription( nbttagcompound );
+//        return new SPacketUpdateTileEntity( getPos(), 0, nbttagcompound );
+//    }
 
     @Override
     public final void onDataPacket( NetworkManager net, SPacketUpdateTileEntity packet )

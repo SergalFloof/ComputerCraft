@@ -7,6 +7,7 @@
 package dan200.computercraft.shared.pocket.items;
 
 import com.google.common.base.Objects;
+
 import dan200.computercraft.ComputerCraft;
 import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.media.IMedia;
@@ -27,6 +28,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.translation.I18n;
@@ -157,34 +159,20 @@ public class ItemPocketComputer extends Item implements IComputerItem, IMedia
         }
     }
     
-//    @Override
-//    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn) {
-//    	if( !world.isRemote )
-//        {
-//            ServerComputer computer = createServerComputer( world, player.inventory, stack );
-//            if( computer != null )
-//            {
-//                computer.turnOn();
-//            }
-//            ComputerCraft.openPocketComputerGUI( player );
-//        }
-//        return stack;
-//    }
-//
-//    @Override
-//    public ItemStack onItemRightClick( ItemStack stack, World world, EntityPlayer player )
-//    {
-//        if( !world.isRemote )
-//        {
-//            ServerComputer computer = createServerComputer( world, player.inventory, stack );
-//            if( computer != null )
-//            {
-//                computer.turnOn();
-//            }
-//            ComputerCraft.openPocketComputerGUI( player );
-//        }
-//        return stack;
-//    }
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn) {
+    	ItemStack stack = player.getHeldItem(handIn);
+    	if( !world.isRemote )
+        {
+            ServerComputer computer = createServerComputer( world, player.inventory, stack );
+            if( computer != null )
+            {
+                computer.turnOn();
+            }
+            ComputerCraft.openPocketComputerGUI( player );
+        }
+    	return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+    }
 
     @Override
     public String getUnlocalizedName( ItemStack stack )

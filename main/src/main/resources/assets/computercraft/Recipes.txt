@@ -90,3 +90,21 @@
             'X', Items.gold_ingot,
             'Y', Items.ender_eye
         );
+		
+		// Pocket Computer
+        ItemStack pocketComputer = PocketComputerItemFactory.create( -1, null, ComputerFamily.Normal, false );
+        GameRegistry.addRecipe( pocketComputer,
+            "XXX", "XYX", "XZX",
+            'X', Blocks.stone,
+            'Y', Items.golden_apple,
+            'Z', Blocks.glass_pane
+        );
+
+        // Advanced Pocket Computer
+        ItemStack advancedPocketComputer = PocketComputerItemFactory.create( -1, null, ComputerFamily.Advanced, false );
+        GameRegistry.addRecipe( advancedPocketComputer,
+            "XXX", "XYX", "XZX",
+            'X', Items.gold_ingot,
+            'Y', Items.golden_apple,
+            'Z', Blocks.glass_pane
+        );

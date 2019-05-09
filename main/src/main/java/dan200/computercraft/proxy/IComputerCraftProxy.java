@@ -4,7 +4,7 @@
  * Send enquiries to dratcliffe@gmail.com
  */
 
-package dan200.computercraft.shared.proxy;
+package dan200.computercraft.proxy;
 
 import dan200.computercraft.shared.computer.blocks.TileComputer;
 import dan200.computercraft.shared.network.ComputerCraftPacket;
@@ -15,8 +15,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.sound.SoundEvent;
-
 import java.io.File;
 
 public interface IComputerCraftProxy

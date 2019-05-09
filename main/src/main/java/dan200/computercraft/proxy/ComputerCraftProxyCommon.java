@@ -4,12 +4,11 @@
  * Send enquiries to dratcliffe@gmail.com
  */
 
-package dan200.computercraft.shared.proxy;
+package dan200.computercraft.proxy;
 
 import dan200.computercraft.ComputerCraft;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.core.computer.MainThread;
-import dan200.computercraft.server.proxy.ComputerCraftProxyServer;
 import dan200.computercraft.shared.common.DefaultBundledRedstoneProvider;
 import dan200.computercraft.shared.common.TileGeneric;
 import dan200.computercraft.shared.computer.blocks.BlockCommandComputer;
@@ -67,6 +66,7 @@ import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.sound.SoundEvent;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -82,6 +82,8 @@ import java.io.File;
 
 public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 {
+	public void registerItemRenderer(Item item, int meta, String id) {};
+	public void registerVariantRenderer(Item item, int meta, String filename, String id) {};
 	public ComputerCraftProxyCommon()
 	{
 	}
@@ -101,22 +103,18 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 		registerForgeHandlers();
 	}
 	
-	@Override
-	public abstract boolean isClient();
+	 @Override
+		public boolean isClient()
+		{
+			return false;
+		}
 	
-	@Override
-	public abstract boolean getGlobalCursorBlink();
-
-    @Override
-    public abstract long getRenderFrame();
 
     @Override
     public void deleteDisplayLists( int list, int range )
     {
     }
 
-    @Override
-	public abstract Object getFixedWidthFontRenderer();
 	
 	@Override
 	public String getRecordInfo( ItemStack recordStack, World world )
@@ -134,26 +132,6 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 		}
 		return null;
 	}
-		
-	@Override
-	public abstract void playRecord( String record, String recordInfo, World world, BlockPos pos );
-	
-	@Override
-	public abstract Object getDiskDriveGUI( InventoryPlayer inventory, TileDiskDrive drive );
-	
-	@Override
-	public abstract Object getComputerGUI( TileComputer computer );
-
-	@Override
-	public abstract Object getPrinterGUI( InventoryPlayer inventory, TilePrinter printer );
-
-	@Override
-	public abstract Object getPrintoutGUI( InventoryPlayer inventory );
-
-    @Override
-    public abstract Object getPocketComputerGUI( InventoryPlayer inventory );
-
-	public abstract File getWorldDir( World world );
 	
 	@Override 
 	public void handlePacket( final ComputerCraftPacket packet, final EntityPlayer player, World world)
@@ -212,10 +190,10 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
                 if( tileEntity != null && tileEntity instanceof TileGeneric )
                 {
                     TileGeneric generic = (TileGeneric)tileEntity;
-                    Packet description = generic.getDescriptionPacket();
+                    NBTTagCompound description = generic.getUpdateTag();
                     if( description != null )
                     {
-                        ((EntityPlayerMP)player).playerNetServerHandler.sendPacket( description );
+                        ((EntityPlayerMP)player).connection.sendPacket( (Packet<?>) description );
                     }
                 }
                 break;
@@ -230,44 +208,44 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 
         // Blocks
 		// Computer
-		ComputerCraft.Blocks.computer = new BlockComputer();
-		GameRegistry.registerBlock( ComputerCraft.Blocks.computer, ItemComputer.class, "CC-Computer" );
-
-        // Peripheral
-        ComputerCraft.Blocks.peripheral = new BlockPeripheral();
-        GameRegistry.registerBlock( ComputerCraft.Blocks.peripheral, ItemPeripheral.class, "CC-Peripheral" );
-
-        // Cable
-        ComputerCraft.Blocks.cable = new BlockCable();
-        GameRegistry.registerBlock( ComputerCraft.Blocks.cable, ItemCable.class, "CC-Cable" );
-
-        // Command Computer
-        ComputerCraft.Blocks.commandComputer = new BlockCommandComputer();
-        GameRegistry.registerBlock( ComputerCraft.Blocks.commandComputer, ItemCommandComputer.class, "command_computer" );
-
-        // Command Computer
-        ComputerCraft.Blocks.advancedModem = new BlockAdvancedModem();
-        GameRegistry.registerBlock( ComputerCraft.Blocks.advancedModem, ItemAdvancedModem.class, "advanced_modem" );
-
-        // Items
-        // Floppy Disk
-        ComputerCraft.Items.disk = new ItemDiskLegacy();
-        GameRegistry.registerItem( ComputerCraft.Items.disk, "disk" );
-
-        ComputerCraft.Items.diskExpanded = new ItemDiskExpanded();
-        GameRegistry.registerItem( ComputerCraft.Items.diskExpanded, "diskExpanded" );
-
-        // Treasure Disk
-        ComputerCraft.Items.treasureDisk = new ItemTreasureDisk();
-        GameRegistry.registerItem( ComputerCraft.Items.treasureDisk, "treasureDisk" );
-
-        // Printout
-        ComputerCraft.Items.printout = new ItemPrintout();
-        GameRegistry.registerItem( ComputerCraft.Items.printout, "printout" );
-
-        // Pocket computer
-        ComputerCraft.Items.pocketComputer = new ItemPocketComputer();
-        GameRegistry.registerItem( ComputerCraft.Items.pocketComputer, "pocketComputer" );
+//		ComputerCraft.Blocks.computer = new BlockComputer();
+//		GameRegistry.registerBlock( ComputerCraft.Blocks.computer, ItemComputer.class, "CC-Computer" );
+//
+//        // Peripheral
+//        ComputerCraft.Blocks.peripheral = new BlockPeripheral();
+//        GameRegistry.registerBlock( ComputerCraft.Blocks.peripheral, ItemPeripheral.class, "CC-Peripheral" );
+//
+//        // Cable
+//        ComputerCraft.Blocks.cable = new BlockCable();
+//        GameRegistry.registerBlock( ComputerCraft.Blocks.cable, ItemCable.class, "CC-Cable" );
+//
+//        // Command Computer
+//        ComputerCraft.Blocks.commandComputer = new BlockCommandComputer();
+//        GameRegistry.registerBlock( ComputerCraft.Blocks.commandComputer, ItemCommandComputer.class, "command_computer" );
+//
+//        // Command Computer
+//        ComputerCraft.Blocks.advancedModem = new BlockAdvancedModem();
+//        GameRegistry.registerBlock( ComputerCraft.Blocks.advancedModem, ItemAdvancedModem.class, "advanced_modem" );
+//
+//        // Items
+//        // Floppy Disk
+//        ComputerCraft.Items.disk = new ItemDiskLegacy();
+//        GameRegistry.registerItem( ComputerCraft.Items.disk, "disk" );
+//
+//        ComputerCraft.Items.diskExpanded = new ItemDiskExpanded();
+//        GameRegistry.registerItem( ComputerCraft.Items.diskExpanded, "diskExpanded" );
+//
+//        // Treasure Disk
+//        ComputerCraft.Items.treasureDisk = new ItemTreasureDisk();
+//        GameRegistry.registerItem( ComputerCraft.Items.treasureDisk, "treasureDisk" );
+//
+//        // Printout
+//        ComputerCraft.Items.printout = new ItemPrintout();
+//        GameRegistry.registerItem( ComputerCraft.Items.printout, "printout" );
+//
+//        // Pocket computer
+//        ComputerCraft.Items.pocketComputer = new ItemPocketComputer();
+//        GameRegistry.registerItem( ComputerCraft.Items.pocketComputer, "pocketComputer" );
 
         // Recipe types
 //        RecipeSorter.register( "computercraft:impostor", ImpostorRecipe.class, RecipeSorter.Category.SHAPED, "after:minecraft:shapeless" );
@@ -279,12 +257,12 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
        
 
         // Disk
-		GameRegistry.addRecipe( new DiskRecipe() );
+//		GameRegistry.addRecipe( new DiskRecipe() );
 
        
 
 		// Printout
-        GameRegistry.addRecipe( new PrintoutRecipe() );
+//        GameRegistry.addRecipe( new PrintoutRecipe() );
 
 		ItemStack singlePrintout = ItemPrintout.createSingleFromTitleAndText( null, null, null );
 		ItemStack multiplePrintout = ItemPrintout.createMultipleFromTitleAndText( null, null, null );
@@ -294,7 +272,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 
         // Wireless Pocket Computer
         ItemStack wirelessPocketComputer = PocketComputerItemFactory.create( -1, null, ComputerFamily.Normal, true );
-        GameRegistry.addRecipe( new PocketComputerUpgradeRecipe() );
+//        GameRegistry.addRecipe( new PocketComputerUpgradeRecipe() );
 
         // Advanced Wireless Pocket Computer
         ItemStack advancedWirelessPocketComputer = PocketComputerItemFactory.create( -1, null, ComputerFamily.Advanced, true );
@@ -481,5 +459,64 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
         public void onWorldUnload( WorldEvent.Unload event )
         {
         }
+	}
+
+	@Override
+	public boolean getGlobalCursorBlink()
+	{
+		return false;
+	}
+
+    @Override
+    public long getRenderFrame()
+    {
+        return 0;
     }
+
+    @Override
+	public Object getFixedWidthFontRenderer()
+	{
+		return null;
+	}
+	
+	@Override
+	public void playRecord( String record, String recordInfo, World world, BlockPos pos )
+	{
+	}
+
+	@Override
+	public Object getDiskDriveGUI( InventoryPlayer inventory, TileDiskDrive drive )
+	{
+		return null;
+	}
+	
+	@Override
+	public Object getComputerGUI( TileComputer computer )
+	{
+		return null;
+	}
+
+	@Override
+	public Object getPrinterGUI( InventoryPlayer inventory, TilePrinter printer )
+	{
+		return null;
+	}
+
+    @Override
+    public Object getPrintoutGUI( InventoryPlayer inventory )
+    {
+        return null;
+    }
+
+    @Override
+    public Object getPocketComputerGUI( InventoryPlayer inventory )
+    {
+        return null;
+    }
+
+	@Override
+	public File getWorldDir( World world )
+	{
+		return new File( ComputerCraft.getBaseDir(), DimensionManager.getWorld(0).getSaveHandler().getWorldDirectory() );
+	}
 }

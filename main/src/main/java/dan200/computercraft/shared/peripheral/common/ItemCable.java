@@ -22,6 +22,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -88,7 +89,7 @@ public class ItemCable extends ItemPeripheralBase
 				if( stack.getCount() > 0 )
 				{
 					world.setBlockState( pos, existingState.withProperty( BlockCable.Properties.CABLE, true ), 3 );
-	                world.playSound(player, pos, ComputerCraft.Blocks.cable.getSoundType().getBreakSound(), (ComputerCraft.Blocks.cable.getSoundType().getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.getSoundType().getPitch() * 0.8F);
+	                world.playSound(player, pos, ComputerCraft.Blocks.cable.getSoundType().getBreakSound(), SoundCategory.BLOCKS, (ComputerCraft.Blocks.cable.getSoundType().getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.getSoundType().getPitch() * 0.8F);
 	    			stack.shrink(-1);;
 	    			
 					TileEntity tile = world.getTileEntity( pos );
@@ -118,7 +119,7 @@ public class ItemCable extends ItemPeripheralBase
 					if( stack.getCount() > 0 )
 					{
                         world.setBlockState( offset, offsetExistingState.withProperty( BlockCable.Properties.MODEM, BlockCableModemVariant.fromFacing( side.getOpposite() ) ), 3 );
-                        world.playSound(player, pos, ComputerCraft.Blocks.cable.getSoundType().getBreakSound(), (ComputerCraft.Blocks.cable.getSoundType().getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.getSoundType().getPitch() * 0.8F);						stack.shrink(-1);;
+                        world.playSound(player, pos, ComputerCraft.Blocks.cable.getSoundType().getBreakSound(), SoundCategory.BLOCKS, (ComputerCraft.Blocks.cable.getSoundType().getVolume() + 1.0F) / 2.0F, ComputerCraft.Blocks.cable.getSoundType().getPitch() * 0.8F);						stack.shrink(-1);;
 
 						TileEntity tile = world.getTileEntity( offset );
 						if( tile != null && tile instanceof TileCable )

@@ -18,6 +18,7 @@ import dan200.computercraft.core.computer.IComputerEnvironment;
 import dan200.computercraft.shared.common.ServerTerminal;
 import dan200.computercraft.shared.network.ComputerCraftPacket;
 import dan200.computercraft.shared.network.INetworkedThing;
+import dan200.computercraft.shared.util.ConfigHandler;
 import dan200.computercraft.shared.util.NBTUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -311,7 +312,7 @@ public class ServerComputer extends ServerTerminal
     @Override
     public long getComputerSpaceLimit()
     {
-        return ComputerCraft.computerSpaceLimit;
+        return ConfigHandler.computerSpaceLimit;
     }
 
     @Override

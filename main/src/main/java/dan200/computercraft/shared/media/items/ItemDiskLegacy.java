@@ -11,6 +11,7 @@ import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.shared.util.Colour;
+import dan200.computercraft.shared.util.ConfigHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -137,7 +138,7 @@ public class ItemDiskLegacy extends Item
 			diskID = ComputerCraft.createUniqueNumberedSaveDir( world, "computer/disk" );
 			setDiskID( stack, diskID );
 		}
-		return ComputerCraftAPI.createSaveDirMount( world, "computer/disk/" + diskID, ComputerCraft.floppySpaceLimit );
+		return ComputerCraftAPI.createSaveDirMount( world, "computer/disk/" + diskID, ConfigHandler.floppySpaceLimit );
     }
 
 //	@Override

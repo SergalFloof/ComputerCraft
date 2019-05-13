@@ -15,6 +15,7 @@ import dan200.computercraft.core.apis.ILuaAPI;
 import dan200.computercraft.core.computer.Computer;
 import dan200.computercraft.core.computer.ITask;
 import dan200.computercraft.core.computer.MainThread;
+import dan200.computercraft.shared.util.ConfigHandler;
 import net.minecraft.world.World;
 
 import org.luaj.vm2.*;
@@ -110,8 +111,8 @@ public class LuaJLuaMachine implements ILuaMachine
         // Add version globals
         m_globals.set( "_VERSION", "Lua 5.1" );
         m_globals.set( "_HOST", computer.getAPIEnvironment().getComputerEnvironment().getHostString() );
-        m_globals.set( "_CC_DEFAULT_SETTINGS", toValue( ComputerCraft.default_computer_settings ) );
-        if( ComputerCraft.disable_lua51_features )
+        m_globals.set( "_CC_DEFAULT_SETTINGS", toValue( ConfigHandler.default_computer_settings ) );
+        if( ConfigHandler.disable_lua51_features )
         {
             m_globals.set( "_CC_DISABLE_LUA51_FEATURES", toValue( true ) );
         }

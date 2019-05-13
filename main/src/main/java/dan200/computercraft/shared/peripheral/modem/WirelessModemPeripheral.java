@@ -7,6 +7,7 @@
 package dan200.computercraft.shared.peripheral.modem;
 
 import dan200.computercraft.ComputerCraft;
+import dan200.computercraft.shared.util.ConfigHandler;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -38,12 +39,12 @@ public abstract class WirelessModemPeripheral extends ModemPeripheral
             if( world != null )
             {
                 Vec3d position = getPosition();
-                double minRange = (double) ComputerCraft.modem_range;
-                double maxRange = (double) ComputerCraft.modem_highAltitudeRange;
+                double minRange = (double) ConfigHandler.modem_range;
+                double maxRange = (double) ConfigHandler.modem_highAltitudeRange;
                 if( world.isRaining() && world.isThundering() )
                 {
-                    minRange = (double) ComputerCraft.modem_rangeDuringStorm;
-                    maxRange = (double) ComputerCraft.modem_highAltitudeRangeDuringStorm;
+                    minRange = (double) ConfigHandler.modem_rangeDuringStorm;
+                    maxRange = (double) ConfigHandler.modem_highAltitudeRangeDuringStorm;
                 }
                 if( position.y > 96.0 && maxRange > minRange )
                 {

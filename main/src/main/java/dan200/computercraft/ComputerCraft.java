@@ -36,6 +36,7 @@ import dan200.computercraft.shared.peripheral.modem.BlockAdvancedModem;
 import dan200.computercraft.shared.peripheral.modem.WirelessNetwork;
 import dan200.computercraft.shared.peripheral.printer.TilePrinter;
 import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
+import dan200.computercraft.shared.util.ConfigHandler;
 import dan200.computercraft.shared.util.CreativeTabMain;
 import dan200.computercraft.shared.util.IDAssigner;
 import dan200.computercraft.shared.util.IEntityDropConsumer;
@@ -79,38 +80,18 @@ import java.util.List;
 @Mod( modid = "ComputerCraft", name = "ComputerCraft", version = "${version}" )
 public class ComputerCraft
 {
-	// GUI IDs
-	public static final int diskDriveGUIID = 100;
-	public static final int computerGUIID = 101;
-	public static final int printerGUIID = 102;
-	// ComputerCraftEdu uses ID 104
-    public static final int printoutGUIID = 105;
-    public static final int pocketComputerGUIID = 106;
-
-	// Configuration options
-	public static boolean http_enable = true;
-    public static String http_whitelist = "*";
-    public static boolean disable_lua51_features = false;
-    public static String default_computer_settings = "";
-
-	public static boolean enableCommandBlock = false;
-
-
+	
     public static final int terminalWidth_computer = 51;
 	public static final int terminalHeight_computer = 19;
 
     public static final int terminalWidth_pocketComputer = 26;
     public static final int terminalHeight_pocketComputer = 20;
+    
+    public static File config;
 
-    public static int modem_range = 64;
-	public static int modem_highAltitudeRange = 384;
-	public static int modem_rangeDuringStorm = 64;
-	public static int modem_highAltitudeRangeDuringStorm = 384;
+    
 
-	public static int computerSpaceLimit = 1000 * 1000;
-	public static int floppySpaceLimit = 125 * 1000;
-
-	public static int treasureDiskLootFrequency = 1;
+	
 
     // Blocks and Items
 	public static class Blocks
@@ -151,7 +132,7 @@ public class ComputerCraft
 	@Mod.Instance( value = "ComputerCraft" )
 	public static ComputerCraft instance;
 
-	@SidedProxy( clientSide = "dan200.computercraft.client.proxy.ComputerCraftProxyClient", serverSide = "dan200.computercraft.server.proxy.ComputerCraftProxyServer" )
+	@SidedProxy( clientSide = "dan200.computercraft.proxy.ClientProxy", serverSide = "dan200.computercraft.proxy.CommonProxy" )
 	public static IComputerCraftProxy proxy;
 
 
@@ -166,59 +147,7 @@ public class ComputerCraft
 		Configuration config = new Configuration( event.getSuggestedConfigurationFile() );
 		config.load();
 
-        // Setup general
-
-		Property prop = config.get(Configuration.CATEGORY_GENERAL, "http_enable", http_enable);
-		prop.comment = "Enable the \"http\" API on Computers (see \"http_whitelist\" for more fine grained control than this)";
-        http_enable = prop.getBoolean(http_enable);
-
-        prop = config.get(Configuration.CATEGORY_GENERAL, "http_whitelist", http_whitelist );
-        prop.comment = "A semicolon limited list of wildcards for domains that can be accessed through the \"http\" API on Computers. Set this to \"*\" to access to the entire internet. Example: \"*.pastebin.com;*.github.com;*.computercraft.info\" will restrict access to just those 3 domains.";
-        http_whitelist = prop.getString();
-
-        prop = config.get(Configuration.CATEGORY_GENERAL, "disable_lua51_features", disable_lua51_features );
-        prop.comment = "Set this to true to disable Lua 5.1 functions that will be removed in a future update. Useful for ensuring forward compatibility of your programs now.";
-        disable_lua51_features = prop.getBoolean( disable_lua51_features );
-
-        prop = config.get( Configuration.CATEGORY_GENERAL, "default_computer_settings", default_computer_settings );
-        prop.comment = "A comma seperated list of default system settings to set on new computers. Example: \"shell.autocomplete=false,lua.autocomplete=false,edit.autocomplete=false\" will disable all autocompletion";
-        default_computer_settings = prop.getString();
-
-        prop = config.get(Configuration.CATEGORY_GENERAL, "enableCommandBlock", enableCommandBlock);
-		prop.comment = "Enable Command Block peripheral support";
-		enableCommandBlock = prop.getBoolean(enableCommandBlock);
-
-		prop = config.get(Configuration.CATEGORY_GENERAL, "modem_range", modem_range);
-		prop.comment = "The range of Wireless Modems at low altitude in clear weather, in meters";
-		modem_range = Math.min( prop.getInt(), 100000 );
-
-		prop = config.get(Configuration.CATEGORY_GENERAL, "modem_highAltitudeRange", modem_highAltitudeRange);
-		prop.comment = "The range of Wireless Modems at maximum altitude in clear weather, in meters";
-		modem_highAltitudeRange = Math.min( prop.getInt(), 100000 );
-
-		prop = config.get(Configuration.CATEGORY_GENERAL, "modem_rangeDuringStorm", modem_rangeDuringStorm);
-		prop.comment = "The range of Wireless Modems at low altitude in stormy weather, in meters";
-		modem_rangeDuringStorm = Math.min( prop.getInt(), 100000 );
-
-		prop = config.get(Configuration.CATEGORY_GENERAL, "modem_highAltitudeRangeDuringStorm", modem_highAltitudeRangeDuringStorm);
-		prop.comment = "The range of Wireless Modems at maximum altitude in stormy weather, in meters";
-		modem_highAltitudeRangeDuringStorm = Math.min( prop.getInt(), 100000 );
-
-		prop = config.get(Configuration.CATEGORY_GENERAL, "computerSpaceLimit", computerSpaceLimit);
-		prop.comment = "The disk space limit for computers and turtles, in bytes";
-		computerSpaceLimit = prop.getInt();
-
-		prop = config.get(Configuration.CATEGORY_GENERAL, "floppySpaceLimit", floppySpaceLimit);
-		prop.comment = "The disk space limit for floppy disks, in bytes";
-		floppySpaceLimit = prop.getInt();
-
-		prop = config.get(Configuration.CATEGORY_GENERAL, "treasureDiskLootFrequency", treasureDiskLootFrequency);
-		prop.comment = "The frequency that treasure disks will be found in dungeon chests, from 0 to 100. Increase this value if running a modpack with lots of mods that add dungeon loot, or you just want more treasure disks. Set to 0 to disable treasure disks.";
-		treasureDiskLootFrequency = prop.getInt();
-
-       
-
-        config.save();
+        
 
         // Setup network
         networkEventChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel( "CC" );
@@ -302,29 +231,29 @@ public class ComputerCraft
 	public static void openDiskDriveGUI( EntityPlayer player, TileDiskDrive drive )
 	{
         BlockPos pos = drive.getPos();
-		player.openGui( ComputerCraft.instance, ComputerCraft.diskDriveGUIID, player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ() );
+		player.openGui( ComputerCraft.instance, ConfigHandler.diskDriveGUIID, player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ() );
 	}
 
 	public static void openComputerGUI( EntityPlayer player, TileComputer computer )
 	{
         BlockPos pos = computer.getPos();
-		player.openGui( ComputerCraft.instance, ComputerCraft.computerGUIID, player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ() );
+		player.openGui( ComputerCraft.instance, ConfigHandler.computerGUIID, player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ() );
 	}
 
 	public static void openPrinterGUI( EntityPlayer player, TilePrinter printer )
 	{
         BlockPos pos = printer.getPos();
-		player.openGui( ComputerCraft.instance, ComputerCraft.printerGUIID, player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ() );
+		player.openGui( ComputerCraft.instance, ConfigHandler.printerGUIID, player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ() );
 	}
 
 	public static void openPrintoutGUI( EntityPlayer player )
 	{
-        player.openGui( ComputerCraft.instance, ComputerCraft.printoutGUIID, player.getEntityWorld(), 0, 0, 0 );
+        player.openGui( ComputerCraft.instance, ConfigHandler.printoutGUIID, player.getEntityWorld(), 0, 0, 0 );
     }
 
     public static void openPocketComputerGUI( EntityPlayer player )
     {
-        player.openGui( ComputerCraft.instance, ComputerCraft.pocketComputerGUIID, player.getEntityWorld(), 0, 0, 0 );
+        player.openGui( ComputerCraft.instance, ConfigHandler.pocketComputerGUIID, player.getEntityWorld(), 0, 0, 0 );
     }
 
     public static File getBaseDir()

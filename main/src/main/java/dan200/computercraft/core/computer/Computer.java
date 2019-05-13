@@ -18,6 +18,7 @@ import dan200.computercraft.core.filesystem.FileSystemException;
 import dan200.computercraft.core.lua.ILuaMachine;
 import dan200.computercraft.core.lua.LuaJLuaMachine;
 import dan200.computercraft.core.terminal.Terminal;
+import dan200.computercraft.shared.util.ConfigHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -617,7 +618,7 @@ public class Computer
 		m_apis.add( new OSAPI( m_apiEnvironment ) );
 		m_apis.add( new BitAPI( m_apiEnvironment ) );
         //m_apis.add( new BufferAPI( m_apiEnvironment ) );
-		if( ComputerCraft.http_enable )
+		if( ConfigHandler.http_enable )
 		{
 			m_apis.add( new HTTPAPI( m_apiEnvironment ) );
 		}

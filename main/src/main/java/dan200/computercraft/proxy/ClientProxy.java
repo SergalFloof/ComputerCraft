@@ -51,7 +51,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
+public class ClientProxy extends CommonProxy
 {
 	private long m_tick;
     private long m_renderFrame;
@@ -66,7 +66,7 @@ public class ComputerCraftProxyClient extends ComputerCraftProxyCommon
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation("computercraft:", filename), id));
 	}
 
-	public ComputerCraftProxyClient()
+	public ClientProxy()
 	{
 	}
 	

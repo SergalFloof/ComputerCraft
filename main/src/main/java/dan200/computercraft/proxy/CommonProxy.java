@@ -47,6 +47,7 @@ import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
 import dan200.computercraft.shared.pocket.items.PocketComputerItemFactory;
 import dan200.computercraft.shared.pocket.recipes.PocketComputerUpgradeRecipe;
 import dan200.computercraft.shared.util.Colour;
+import dan200.computercraft.shared.util.ConfigHandler;
 import dan200.computercraft.shared.util.CreativeTabMain;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,11 +81,11 @@ import net.minecraftforge.oredict.RecipeSorter;
 
 import java.io.File;
 
-public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
+public abstract class CommonProxy implements IComputerCraftProxy
 {
 	public void registerItemRenderer(Item item, int meta, String id) {};
 	public void registerVariantRenderer(Item item, int meta, String filename, String id) {};
-	public ComputerCraftProxyCommon()
+	public CommonProxy()
 	{
 	}
 	
@@ -206,47 +207,6 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 		// Creative tab
 		ComputerCraft.mainCreativeTab = new CreativeTabMain( CreativeTabs.getNextID() );
 
-        // Blocks
-		// Computer
-//		ComputerCraft.Blocks.computer = new BlockComputer();
-//		GameRegistry.registerBlock( ComputerCraft.Blocks.computer, ItemComputer.class, "CC-Computer" );
-//
-//        // Peripheral
-//        ComputerCraft.Blocks.peripheral = new BlockPeripheral();
-//        GameRegistry.registerBlock( ComputerCraft.Blocks.peripheral, ItemPeripheral.class, "CC-Peripheral" );
-//
-//        // Cable
-//        ComputerCraft.Blocks.cable = new BlockCable();
-//        GameRegistry.registerBlock( ComputerCraft.Blocks.cable, ItemCable.class, "CC-Cable" );
-//
-//        // Command Computer
-//        ComputerCraft.Blocks.commandComputer = new BlockCommandComputer();
-//        GameRegistry.registerBlock( ComputerCraft.Blocks.commandComputer, ItemCommandComputer.class, "command_computer" );
-//
-//        // Command Computer
-//        ComputerCraft.Blocks.advancedModem = new BlockAdvancedModem();
-//        GameRegistry.registerBlock( ComputerCraft.Blocks.advancedModem, ItemAdvancedModem.class, "advanced_modem" );
-//
-//        // Items
-//        // Floppy Disk
-//        ComputerCraft.Items.disk = new ItemDiskLegacy();
-//        GameRegistry.registerItem( ComputerCraft.Items.disk, "disk" );
-//
-//        ComputerCraft.Items.diskExpanded = new ItemDiskExpanded();
-//        GameRegistry.registerItem( ComputerCraft.Items.diskExpanded, "diskExpanded" );
-//
-//        // Treasure Disk
-//        ComputerCraft.Items.treasureDisk = new ItemTreasureDisk();
-//        GameRegistry.registerItem( ComputerCraft.Items.treasureDisk, "treasureDisk" );
-//
-//        // Printout
-//        ComputerCraft.Items.printout = new ItemPrintout();
-//        GameRegistry.registerItem( ComputerCraft.Items.printout, "printout" );
-//
-//        // Pocket computer
-//        ComputerCraft.Items.pocketComputer = new ItemPocketComputer();
-//        GameRegistry.registerItem( ComputerCraft.Items.pocketComputer, "pocketComputer" );
-
         // Recipe types
 //        RecipeSorter.register( "computercraft:impostor", ImpostorRecipe.class, RecipeSorter.Category.SHAPED, "after:minecraft:shapeless" );
 //        RecipeSorter.register( "computercraft:impostor_shapeless", ImpostorShapelessRecipe.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless" );
@@ -293,7 +253,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 
 		// Register peripheral providers
         ComputerCraftAPI.registerPeripheralProvider( new DefaultPeripheralProvider() );
-		if( ComputerCraft.enableCommandBlock )
+		if( ConfigHandler.enableCommandBlock )
 		{
 			ComputerCraftAPI.registerPeripheralProvider( new CommandBlockPeripheralProvider() );
 		}
@@ -327,7 +287,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
             BlockPos pos = new BlockPos( x, y, z );
 			switch( id )
 			{
-				case ComputerCraft.diskDriveGUIID:
+				case ConfigHandler.diskDriveGUIID:
 				{
                     TileEntity tile = world.getTileEntity( pos );
 					if( tile != null && tile instanceof TileDiskDrive )
@@ -337,7 +297,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 					}
 					break;
 				}
-				case ComputerCraft.computerGUIID:
+				case ConfigHandler.computerGUIID:
 				{
                     TileEntity tile = world.getTileEntity( pos );
 					if( tile != null && tile instanceof TileComputer )
@@ -347,7 +307,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 					}
 					break;
 				}
-				case ComputerCraft.printerGUIID:
+				case ConfigHandler.printerGUIID:
 				{
                     TileEntity tile = world.getTileEntity( pos );
 					if( tile != null && tile instanceof TilePrinter )
@@ -357,11 +317,11 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 					}
 					break;
 				}
-                case ComputerCraft.printoutGUIID:
+                case ConfigHandler.printoutGUIID:
                 {
                     return new ContainerHeldItem( player.inventory );
                 }
-                case ComputerCraft.pocketComputerGUIID:
+                case ConfigHandler.pocketComputerGUIID:
                 {
                     return new ContainerHeldItem( player.inventory );
                 }
@@ -375,7 +335,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
             BlockPos pos = new BlockPos( x, y, z );
 			switch( id )
 			{
-				case ComputerCraft.diskDriveGUIID:
+				case ConfigHandler.diskDriveGUIID:
 				{
                     TileEntity tile = world.getTileEntity( pos );
 					if( tile != null && tile instanceof TileDiskDrive )
@@ -385,7 +345,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 					}
 					break;
 				}
-				case ComputerCraft.computerGUIID:
+				case ConfigHandler.computerGUIID:
 				{
                     TileEntity tile = world.getTileEntity( pos );
 					if( tile != null && tile instanceof TileComputer )
@@ -395,7 +355,7 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 					}
 					break;
 				}
-				case ComputerCraft.printerGUIID:
+				case ConfigHandler.printerGUIID:
 				{
                     TileEntity tile = world.getTileEntity( pos );
 					if( tile != null && tile instanceof TilePrinter )
@@ -405,11 +365,11 @@ public abstract class ComputerCraftProxyCommon implements IComputerCraftProxy
 					}
 					break;
 				}
-                case ComputerCraft.printoutGUIID:
+                case ConfigHandler.printoutGUIID:
                 {
                     return getPrintoutGUI( player.inventory );
                 }
-                case ComputerCraft.pocketComputerGUIID:
+                case ConfigHandler.pocketComputerGUIID:
                 {
                     return getPocketComputerGUI( player.inventory );
                 }

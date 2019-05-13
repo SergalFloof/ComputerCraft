@@ -35,7 +35,7 @@ public abstract class BlockGeneric extends Block implements
     protected BlockGeneric( Material material )
     {
         super( material );
-        this.isBlockContainer = true;
+//        this.isBlockContainer = true;
     }
 
     protected abstract IBlockState getDefaultBlockState( int damage, EnumFacing placedSide );
@@ -193,28 +193,29 @@ public abstract class BlockGeneric extends Block implements
         return super.getExplosionResistance( exploder );
     }
 
-//    private void setBlockBounds( AxisAlignedBB bounds )
-//    {
-//        setBlockBounds(
-//            (float)bounds.minX, (float)bounds.minY, (float)bounds.minZ,
-//            (float)bounds.maxX, (float)bounds.maxY, (float)bounds.maxZ
-//        );
-//    }
-
-    @Override
-    public final void setBlockBoundsBasedOnState( IBlockAccess world, BlockPos pos )
+    private void setBlockBounds( AxisAlignedBB bounds )
     {
-        TileEntity tile = world.getTileEntity( pos );
+        setBlockBounds(
+            (float)bounds.minX, (float)bounds.minY, (float)bounds.minZ,
+            (float)bounds.maxX, (float)bounds.maxY, (float)bounds.maxZ
+        );
+    }
+
+	@Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    {
+        TileEntity tile = source.getTileEntity( pos );
         if( tile != null && tile instanceof TileGeneric && tile.hasWorld() )
         {
             TileGeneric generic = (TileGeneric)tile;
             setBlockBounds( generic.getBounds() );
         }
+		return ;
     }
 
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-    	setBlockBoundsBasedOnState( worldIn, pos );
+    	getBoundingBox( blockState, worldIn, pos );
         return super.getCollisionBoundingBox( blockState, worldIn, pos );
     }
     
@@ -302,11 +303,10 @@ public abstract class BlockGeneric extends Block implements
         }
         return 0;
     }
-
+    
     @Override
-    public boolean onBlockEventReceived( World world, BlockPos pos, IBlockState state, int eventID, int eventParameter )
-    {
-        if( world.isRemote )
+    public boolean eventReceived(IBlockState state, World world, BlockPos pos, int eventID, int eventParameter) {
+    	if( world.isRemote )
         {
             TileEntity tile = world.getTileEntity( pos );
             if( tile != null && tile instanceof TileGeneric )
@@ -317,7 +317,7 @@ public abstract class BlockGeneric extends Block implements
         }
         return true;
     }
-
+    
     @Override
     public final TileEntity createTileEntity( World world, IBlockState state )
     {

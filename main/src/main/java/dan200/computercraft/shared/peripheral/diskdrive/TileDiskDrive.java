@@ -607,7 +607,7 @@ public class TileDiskDrive extends TilePeripheralBase
 			world.spawnEntity(entityitem);
 			if( !destroyed )
 			{
-				world.playAuxSFX(1000, getPos(), 0);
+				world.playEvent(1000, getPos(), 0);
 			}
 		}
     }

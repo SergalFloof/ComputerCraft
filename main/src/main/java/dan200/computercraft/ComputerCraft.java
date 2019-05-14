@@ -256,9 +256,9 @@ public class ComputerCraft
         player.openGui( ComputerCraft.instance, ConfigHandler.pocketComputerGUIID, player.getEntityWorld(), 0, 0, 0 );
     }
 
-    public static File getBaseDir()
+    public static String getBaseDir()
 	{
-		return FMLCommonHandler.instance().getMinecraftServerInstance().getFile(".");
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getFile(".").toString();
 	}
 
 	public static File getResourcePackDir()
